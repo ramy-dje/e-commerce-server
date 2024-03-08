@@ -21,7 +21,6 @@ console.log(err)
 }
 );
 app.get('/', (req,res)=>{
-
     res.sendFile('./index.html',{root:__dirname});
 })
 app.get('/test/:id',deliver.deleteDeliver);
