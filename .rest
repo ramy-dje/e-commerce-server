@@ -1,16 +1,18 @@
-POST http://localhost:3000/refund/create
+POST http://localhost:3000/client/65f477bebd69d2434c21f3d6
 Content-Type: application/json
 
 {
-    "clientId" : "dsq8",
-    "sellerId" : "sd564654qs654d654d6",
-    "productId" : "qsdfsqf",
-    "reason" : "sqdf",
-    "refundPrice" : 660000 
+    "firstName": "admin",
+    "lastName": "admin",
+    "gender": "male",
+    "dateOfBirth": "02-02-2002"
 }
 
 ###
-GET http://localhost:3000/refund/get
+GET http://localhost:3000/all
+###
+###
+GET http://localhost:3000/65f477bebd69d2434c21f3d6
 ###
 POST http://localhost:3000/refund/pget
 Content-Type: application/json
@@ -23,4 +25,4 @@ Content-Type: application/json
 POST http://localhost:3000/acceptRefund/65f413815ce19cda01939d5e
 
 ###
-DELETE  http://localhost:3000/refund/delete/65f4128ba59ef2e395648835
+DELETE  http://localhost:3000/65f477bebd69d2434c21f3d6

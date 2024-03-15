@@ -1,8 +1,10 @@
 const express = require ("express");
 const mongoose = require ("mongoose");
 const deliver = require ('./controllers/deliverController');
-const spam = require("./controllers/spamController");
+const spam = require("./controllers/adminController");
 const refund = require('./controllers/refundsController');
+const bcrypt = require('bcrypt');
+
 require('dotenv').config();
 const app = express();
 app.use(express.json());
@@ -25,19 +27,10 @@ console.log(err)
 app.get('/', (req,res)=>{
     res.sendFile('./index.html',{root:__dirname});
 })
-app.get('/test/:id',deliver.deleteDeliver);
-app.post('/add/:id',deliver.updateDeliver);
 
-/**############################################### */
-app.post('/spam/create' , spam.createSpam);
-app.get('/spam/get' , spam.getAllSpams);
-app.post('/spam/accept/:id' , spam.acceptSpam)
-app.delete('/spam/delete/:id' ,spam.deleteSpam)
-
-
-/**############################################### */
-app.post('/refund/create' , refund.createRefund) ;
-app.get('/refund/get' , refund.getRefundsList);
-app.post('/refund/pget' , refund.getRefundsByFilter);
-app.delete("/refund/delete/:id" , refund.deleteRefund);
-app.post("/acceptRefund/:id", refund.acceptRefund)
+/**ààààààààààààààààààààààààà */
+//$2b$10$RedFqh.QmOY5KLzJiaeqRuPOh1Qp0ZRAIEQGWwSl.JCnfGAq6nPNa
+app.post('/client/:id' , spam.updateAdmin);
+app.get('/all' , spam.getAllAdmins);
+app.get('/:id' , spam.getOneAdmin);
+app.delete('/:id' , spam.deleteAdmin);

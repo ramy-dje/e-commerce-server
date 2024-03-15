@@ -1,27 +1,13 @@
 all apis shoudld hav in response {success : true or false ,... other things} to make things easier
 
 client :
-    post : createClient(firstName,lastName,gender,dateOfBirth,avatar,email,phoneNumber,password)
-    put : updateClient(id,firstName,lastName,gender,dateOfBirth,avatar,email,phoneNumber,password)
-    deleteAccount : deleteClient(id)
-    get : getClientData(id)=>client
-    get : getAllClients()=>client[]
     get : getAllClientsByfilter(filter)=>client[]
     put : changeStar(id,star) //scheduler
-    get : getStar(id)
+ 
      
 
-**spam : 
-    post : createSpam(client,typeId,type,reason)=>
-    get : getAllSpams()=>spam[]
-    delete : deleteSpam(spam)=>
-    post : accepteSpam(id,isAccepted:boolean)=>
 
-**refund :
-    post : createRefund(client,seller,product,reason,price)
-    get : getRefundsList()=>refund[]
-    get : getrefundsByFilter(filter)=>refund (filter : client|product|seller)
-    post : setAccepted(id,isAccepted:boolean)=>
+
 
 review :
     post : createReview(client,seller,product,reviewMsg)
@@ -98,12 +84,7 @@ contactSupport :
     get : getMessages(sender,reciver)=>messages[]
     delete : deleteMessage(id) 
 
-**deliver :
-    post : createDeliver(name,logo,priceByKm,estimedDeliverTime,areaToDeliver)=>
-    get : getDelivers()=>deliver[]
-    get : getdeliver(id)=>deliver
-    put : updateDeliver(id)=>deliver
-    delete : deleteDeliver(id)=>
+
 
 delivery :
     post : makeDelivery(deliver,store,client,product,payedPrice,timeOfDelivery)=>

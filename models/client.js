@@ -9,6 +9,7 @@ const clientSchema = new Schema({
     email:String,
     phoneNumber:Number,
     password:String,
-    star : Number
+    star : Number,
+    age : Number
 });
 module.exports = mongoose.model("client", clientSchema);
