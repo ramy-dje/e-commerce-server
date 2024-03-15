@@ -14,11 +14,10 @@
         
         
            let obj = {
-            name: 'bekouch mouhammed',
-            areasToDeliver: ['20 aut'],
-            pricePerKM: 200,
-            logo: 'logo link',
-            estimatedTimeToDeliver:'2024-05-22',
+            clientId : "dfssfddf",
+            sellerId : "fdsfsdsfdfsd",
+            productId : "fdfsfsdsd",
+            reason : "fdsfdsfdsfdsfsd"
         };
 
         // Convert the object to JSON
@@ -29,7 +28,7 @@
             e.preventDefault();
 
             // Send a POST request using Fetch API
-            fetch('/add/65e44042e0a5342cea30d210', {
+            fetch('http://localhost:3000/spam/create', {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'

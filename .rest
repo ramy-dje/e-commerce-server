@@ -1,2 +1,26 @@
-GET http://localhost:3000/test/65e43faae0a5342cea30d20e
-// ok
+POST http://localhost:3000/refund/create
+Content-Type: application/json
+
+{
+    "clientId" : "dsq8",
+    "sellerId" : "sd564654qs654d654d6",
+    "productId" : "qsdfsqf",
+    "reason" : "sqdf",
+    "refundPrice" : 660000 
+}
+
+###
+GET http://localhost:3000/refund/get
+###
+POST http://localhost:3000/refund/pget
+Content-Type: application/json
+
+{
+    "id": "65f4128ba59ef2e395648835",
+    "filter" : "client"
+}
+###
+POST http://localhost:3000/acceptRefund/65f413815ce19cda01939d5e
+
+###
+DELETE  http://localhost:3000/refund/delete/65f4128ba59ef2e395648835
