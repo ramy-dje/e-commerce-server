@@ -1,8 +1,5 @@
 all apis shoudld hav in response {success : true or false ,... other things} to make things easier
 
-client :
-    get : getAllClientsByfilter(filter)=>client[]
-    put : changeStar(id,star) //scheduler
  
      
 
@@ -32,15 +29,6 @@ buy :
     get : getPurchasesByPaymentMode(paymentMode)=>buy[]
     delete : deletePurshase (id)=>
 
-seller :
-    post : createSeller(firstName,lastName,gender,dateOfBirth,avatar,email,phoneNumber,password,commerceRegisterNumber)
-    put : updateSeller(id,firstName,lastName,gender,dateOfBirth,avatar,email,phoneNumber,password)
-    deleteAccount : deleteSeller(id,password)
-    put : acceptSeller(id,isAccepted) 
-    put : setIsProfestionalAccount(id,isProfestional)
-    get : getSellers()=>seller[]
-    get : getProfestionalSeller(isProfestional)=>sellers[]
-
 
 timedDiscount : 
     post : createDiscount(seller,product,discountPercentage,timeToEnd)
@@ -55,23 +43,7 @@ couponDiscount :
     put : changePercentage(id,percentage)
 
 
-product :
-    post : addProduct(productName,creatorName,desciption,images,videos,3dModles,colors,dimenstions,weight,category,tagsOrKeyWords)
-    put : updateProduct(id,productName,creatorName,desciption,images,videos,3dModles,colors,dimenstions,weight,category,tagsOrKeyWords)
-    get : getProduct()=>product[]
-    get : getProductByCategory()=>product[]
-    get : getProductByCreatorName()=>product[]
-    delete : deleteProduct(id)=>
 
-store :
-    post : createStore(seller,name,logo)
-    post : addProduct(productName,creatorName,desciption,images,videos,3dModles,colors,dimenstions,weight,category,tagsOrKeyWords,storeId)
-    put : updateProduct(id,productName,creatorName,desciption,images,videos,3dModles,colors,dimenstions,weight,category,tagsOrKeyWords,storeId)
-    put : addVisit(id,client)
-    get : getStoreData(store)
-    put : setPaymentWay(paymentWay)=>
-    delete : deleteProduct(id,productName)
-    delete : deleteStore(id)
 
 Q&A:
     post : createQ&A(product,store)
@@ -93,12 +65,6 @@ delivery :
     delete :deleteDelivery(id)=>
     put : setTracking(id,productTracking)=>
 
-admin :
-    post : createAdmin(firstName,lastName,gender,dateOfBirth,avatar,email,phoneNumber,password)=>
-    put : updateAdmin(firstName,lastName,gender,dateOfBirth,avatar,email,phoneNumber,password)=>
-    get : getAdmins()=>admin[]
-    get : getAdmin(id)=>admin[]
-    delete : delete(id)=>
 
 
 

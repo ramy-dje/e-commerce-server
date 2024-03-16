@@ -1,7 +1,7 @@
 const express = require ("express");
 const mongoose = require ("mongoose");
 const deliver = require ('./controllers/deliverController');
-const spam = require("./controllers/adminController");
+const spam = require("./controllers/storeController");
 const refund = require('./controllers/refundsController');
 const bcrypt = require('bcrypt');
 
@@ -30,7 +30,11 @@ app.get('/', (req,res)=>{
 
 /**ààààààààààààààààààààààààà */
 //$2b$10$RedFqh.QmOY5KLzJiaeqRuPOh1Qp0ZRAIEQGWwSl.JCnfGAq6nPNa
-app.post('/client/:id' , spam.updateAdmin);
-app.get('/all' , spam.getAllAdmins);
-app.get('/:id' , spam.getOneAdmin);
-app.delete('/:id' , spam.deleteAdmin);
+
+/**
+ app.post('/client' ,  spam.addStore);
+ 
+ app.get('/all' , spam.getAllStores);
+ app.get('/:id' , spam.getOneStore);
+ app.delete('/:id' , spam.deleteStore);
+ */

@@ -1,11 +1,5 @@
 const admin = require('../models/admin');
 const bcrypt = require('bcrypt');
-/**
- *  
-    delete : delete(id)=>
- */
-
-
 
 // we use bcrypt to hashing password at secuer way
 const createAdmin = async (req,res) =>{
