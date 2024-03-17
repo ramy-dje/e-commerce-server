@@ -1,7 +1,7 @@
 const express = require ("express");
 const mongoose = require ("mongoose");
 const deliver = require ('./controllers/deliverController');
-const spam = require("./controllers/storeController");
+const spam = require("./controllers/cntactSuportController");
 const refund = require('./controllers/refundsController');
 const bcrypt = require('bcrypt');
 
@@ -30,11 +30,11 @@ app.get('/', (req,res)=>{
 
 /**ààààààààààààààààààààààààà */
 //$2b$10$RedFqh.QmOY5KLzJiaeqRuPOh1Qp0ZRAIEQGWwSl.JCnfGAq6nPNa
-
+app.post('/client/:sender/:reciver' ,  spam.getSuportMessages);
+app.delete('/:id' , spam.deleteSuportMessage);
 /**
- app.post('/client' ,  spam.addStore);
+ app.get('/all/:product/:store' , spam.getQandA);
  
- app.get('/all' , spam.getAllStores);
- app.get('/:id' , spam.getOneStore);
- app.delete('/:id' , spam.deleteStore);
+ app.get('/:paymentMode' , spam.getPurchasesByPaymentMode);
+ 
  */

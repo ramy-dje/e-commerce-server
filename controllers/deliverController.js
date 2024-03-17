@@ -1,6 +1,5 @@
 const deliver = require('../models/deliver');
 
-//post : createDeliver(name,logo,priceByKm,estimedDeliverTime,areaToDeliver)=>
 //#####POST
 const createDeliver = async (req,res) =>{
     try{
@@ -19,7 +18,6 @@ const createDeliver = async (req,res) =>{
     }
 }
 
-//get : getDelivers()=>deliver[]
 const getDelivers = async (req,res)=>{
     try{
         let result = await deliver.find();
@@ -28,7 +26,7 @@ const getDelivers = async (req,res)=>{
         res.json ({success:false});
     }
 }
-// get : getdeliver(id)=>deliver
+
 const getOneDeliver = async (req,res)=>{
     try{
         let id = req.params.id;
@@ -42,7 +40,7 @@ const getOneDeliver = async (req,res)=>{
         res.json ({success:false});
     }
 }
-//put : updateDeliver(id)=>deliver
+
 const updateDeliver = async (req,res)=>{
     try{
         let id =req.params.id;
@@ -56,7 +54,7 @@ const updateDeliver = async (req,res)=>{
         res.json ({success:false});
     }
 }
-//delete : deleteDeliver(id)=>
+
 const deleteDeliver = async (req,res) =>{
     try{
         let id = req.params.id;

@@ -1,22 +1,17 @@
-POST http://localhost:3000/client
+POST http://localhost:3000/client/65f46a7ed0016a11fa857dbc/65f55113043c0011ebd4d59b
 Content-Type: application/json
 
 {
-
-            "name": "big data",
-            "seller":  "65f55113043c0011ebd4d59b",
-            "logo": "gigo"
-
+    "message" : "i have got a problem"
 }
 
 
 
-
 ###
-GET http://localhost:3000/all
+GET http://localhost:3000/all/65f6b98ef8e96b5e1e16147d
 ###
 ###
-GET http://localhost:3000/65f56958f7cd5009b7ac9b9a
+GET http://localhost:3000/65f55a08b588557ddc8e0f89/65f575b8cf2d93a202e5780c
 ###
 POST http://localhost:3000/refund/pget
 Content-Type: application/json
@@ -29,4 +24,4 @@ Content-Type: application/json
 POST http://localhost:3000/acceptRefund/65f413815ce19cda01939d5e
 
 ###
-DELETE  http://localhost:3000/65f56958f7cd5009b7ac9b9a
+DELETE  http://localhost:3000/65f6c820ee2e9f8f18d3894d

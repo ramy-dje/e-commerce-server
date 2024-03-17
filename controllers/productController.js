@@ -1,9 +1,5 @@
 const product =require('../models/product');
-/**
-    delete : deleteProduct(id)=>
- */
 
- 
 const addProduct = async (req,res) =>{
 
         try{
@@ -67,7 +63,7 @@ const addProduct = async (req,res) =>{
 }
 
 const getOneProduct= async (req,res)=>{
-    try{
+try{
     let id = req.params.id;
     if(id){
         let result = await product.findById(id);

@@ -1,21 +1,4 @@
 const store =require('../models/store');
-/**
-    delete : deleteStore(id)
- */
-/**
- * seller 65f55113043c0011ebd4d59b
- * client 65f46a7ed0016a11fa857dbc
- * product 65f55a55b588557ddc8e0f90
-*/
-/**
- *  seller,
-    products,
-    visitors,
-    folows,
-    name,
-    logo,
-    allowedPaymentTypes
- */
 
 const getAllStores = async (req,res)=>{
     try{

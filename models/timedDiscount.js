@@ -11,6 +11,9 @@ const timedDiscountSchema = new Schema({
     },
     percentage : Number,
     timeToEndDiscount : Date,
-    isRuning : Boolean
+    isRuning : {
+        type :Boolean,
+        default : true
+    }
 });
 module.exports = mongoose.model("timedDiscount", timedDiscountSchema);
