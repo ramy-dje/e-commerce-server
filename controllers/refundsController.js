@@ -4,14 +4,14 @@ const getRefundsList = async (req,res)=>{
     try{
         const refunds = await Refunds.find();
         res.json({success:true,refunds});
-    }catch(e){
-        res.json({success:false,message:e});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
 const getRefundsByFilter = async (req,res)=>{
     try{
-        const {id,filter} = req.body;
+        const {id,filter} = req.params;
         if(!id){
             res.json({success:false,message:"data is missing"});
         }
@@ -22,8 +22,8 @@ const getRefundsByFilter = async (req,res)=>{
             refunds = await Refunds.find({seller : id});
         }
         res.json({success:true,refunds});
-    }catch(e){
-        res.json({success:false,message:e});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -36,9 +36,8 @@ const createRefund = async (req,res)=>{
         const newRefund = await Refunds.create({clientId,sellerId,productId,reason,isAccepted:null,refundPrice}); 
         newRefund.save();
         res.json({success:true});
-    }catch(e){
-        console.log(e)
-        res.json({success:false,message: e});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -50,8 +49,8 @@ const deleteRefund = async (req,res)=>{
         }
         await Refunds.deleteOne({_id :id});
         res.json({success:true});
-    }catch(e){
-        res.json({success:false,message: e});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
     
 }
@@ -65,8 +64,8 @@ const acceptRefund = async (req,res)=>{
             await Refunds.findByIdAndUpdate(id,{isAccepted:true});
             res.json({success:true});
         }
-    }catch(e){
-        res.json({success:false,message: e});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
     
 }

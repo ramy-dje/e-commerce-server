@@ -44,9 +44,9 @@ const addOrder = async (req,res) =>{
                     await create.save();
                     res.json ({success:true});
                 }
-            }catch(e){
-            res.json ({success:false});
-        }
+            }catch(err){
+                res.json ({success:false , error : err});
+            }
 }
 
 // you need to pass client id in params
@@ -59,8 +59,8 @@ const getClientPurchases= async (req,res)=>{
     }else{
         res.json ({success:false,message:"data is missing"});    
     }
-}catch{
-    res.json ({success:false});
+}catch(err){
+    res.json ({success:false , error : err});
 }
 }
 
@@ -74,8 +74,8 @@ const getProductPurchases= async (req,res)=>{
    }else{
        res.json ({success:false,message:"data is missing"});    
    }
-}catch{
-   res.json ({success:false});
+}catch(err){
+    res.json ({success:false , error : err});
 }
 }
 
@@ -88,8 +88,8 @@ const getStorePurchases= async (req,res)=>{
    }else{
        res.json ({success:false,message:"data is missing"});    
    }
-}catch{
-   res.json ({success:false});
+}catch(err){
+    res.json ({success:false , error : err});
 }
 }
 
@@ -103,8 +103,8 @@ const getPurchasesByShippingSupplier= async (req,res)=>{
    }else{
        res.json ({success:false,message:"data is missing"});    
    }
-}catch{
-   res.json ({success:false});
+}catch(err){
+    res.json ({success:false , error : err});
 }
 }
 
@@ -118,8 +118,8 @@ const getPurchasesByPaymentMode= async (req,res)=>{
    }else{
        res.json ({success:false,message:"data is missing"});    
    }
-}catch{
-   res.json ({success:false});
+}catch(err){
+    res.json ({success:false , error : err});
 }
 }
 const deletePurshase = async (req,res) =>{
@@ -131,8 +131,8 @@ const deletePurshase = async (req,res) =>{
         }else{
             res.json ({success:false,message:"data is missing"});    
         }
-    }catch(e){
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 module.exports = {

@@ -29,10 +29,9 @@ const createCuponDiscount = async (req,res) =>{
                     await create.save();
                     res.json ({success:true});
                 }
-            }catch(e){
-                console.log(e)
-            res.json ({success:false});
-        }
+            }catch(err){
+                res.json ({success:false , error : err});
+            }
 }
 
 const getOneCouponDiscount= async (req,res)=>{
@@ -44,8 +43,8 @@ try{
     }else{
         res.json ({success:false,message:"data is missing"});    
     }
-}catch{
-    res.json ({success:false});
+}catch(err){
+    res.json ({success:false , error : err});
 }
 }
 
@@ -53,8 +52,8 @@ const getAllCouponDiscounts = async (req,res)=>{
     try{
         let result = await couponDiscount.find();
         res.json(result);
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -86,10 +85,9 @@ const changeCuponCode = async (req,res) =>{
                 res.json ({success:true});
             }
 
-        }catch(e){
-            console.log(e)
-        res.json ({success:false});
-    }
+        }catch(err){
+            res.json ({success:false , error : err});
+        }
 }
 
 const changeCuponPercentage = async (req,res) =>{
@@ -120,10 +118,9 @@ const changeCuponPercentage = async (req,res) =>{
                 res.json ({success:true});
             }
 
-        }catch(e){
-            console.log(e)
-        res.json ({success:false});
-    }
+        }catch(err){
+            res.json ({success:false , error : err});
+        }
 }
 
 const deleteCuponDiscount = async (req,res) =>{
@@ -135,8 +132,8 @@ const deleteCuponDiscount = async (req,res) =>{
         }else{
             res.json ({success:false,message:"data is missing"});    
         }
-    }catch(e){
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 module.exports = {

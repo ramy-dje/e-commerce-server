@@ -4,8 +4,8 @@ const getAllStores = async (req,res)=>{
     try{
         let result = await store.find();
         res.json(result);
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -14,8 +14,8 @@ const getOneStore = async (req,res)=>{
         let id =req.params.id;
         let result = await store.findById(id);
         res.json(result);
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -35,10 +35,9 @@ const addStore = async (req,res) =>{
                 await create.save();
                 res.json ({success:true});
             }
-        }catch(e){
-            console.log(e)
-        res.json ({success:false});
-    }
+        }catch(err){
+            res.json ({success:false , error : err});
+        }
 }
 
 // you have put in body only one product
@@ -54,10 +53,9 @@ try{
                 await store.updateOne({ _id: id }, { $push: { products:product}});
             res.json ({success:true});
         }
-    }catch(e){
-        console.log(e)
-    res.json ({success:false});
-}
+    }catch(err){
+        res.json ({success:false , error : err});
+    }
 }
 
 const updateStore = async (req,res) =>{
@@ -77,10 +75,9 @@ const updateStore = async (req,res) =>{
                 await store.updateOne({ _id: id }, {name,seller,logo});
                 res.json ({success:true});
             }
-        }catch(e){
-            console.log(e)
-        res.json ({success:false});
-    }
+        }catch(err){
+            res.json ({success:false , error : err});
+        }
 }
 
 // you have put in body only one visitor
@@ -96,10 +93,9 @@ const addVisitorsIntoStore = async (req,res) =>{
                     await store.updateOne({ _id: id }, { $push: { visitors:visitor}});
                 res.json ({success:true});
             }
-        }catch(e){
-            console.log(e)
-        res.json ({success:false});
-    }
+        }catch(err){
+            res.json ({success:false , error : err});
+        }
 }
 
 const addFolowsIntoStore = async (req,res) =>{
@@ -114,10 +110,9 @@ const addFolowsIntoStore = async (req,res) =>{
                     await store.updateOne({ _id: id }, { $push: { folows:folow}});
                 res.json ({success:true});
             }
-        }catch(e){
-            console.log(e)
-        res.json ({success:false});
-    }
+        }catch(err){
+            res.json ({success:false , error : err});
+        }
 }
 
 const setPaymentWay = async (req,res) =>{
@@ -132,10 +127,9 @@ const setPaymentWay = async (req,res) =>{
                     await store.updateOne({ _id: id }, { $push: { allowedPaymentTypes:allowedPaymentType}});
                 res.json ({success:true});
             }
-        }catch(e){
-            console.log(e)
-        res.json ({success:false});
-    }
+        }catch(err){
+            res.json ({success:false , error : err});
+        }
 }
 
 // you have put in body the product id 
@@ -151,10 +145,9 @@ const deleteProductFromStore = async (req , res)=>{
                 await store.updateOne({ _id: id }, { $pull: { products:product}});
                 res.json ({success:true});
             }
-        }catch(e){
-            console.log(e)
-        res.json ({success:false});
-    }
+        }catch(err){
+            res.json ({success:false , error : err});
+        }
 }
 
 const deleteStore = async (req,res) =>{
@@ -166,8 +159,8 @@ const deleteStore = async (req,res) =>{
         }else{
             res.json ({success:false,message:"data is missing"});    
         }
-    }catch(e){
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 module.exports = {

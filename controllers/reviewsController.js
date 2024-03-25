@@ -29,10 +29,9 @@ const createReview = async (req,res) =>{
                         await create.save();
                         res.json ({success:true});
                     }
-                }catch(e){
-                    console.log(e)
-                res.json ({success:false});
-            }
+                }catch(err){
+                    res.json ({success:false , error : err});
+                }
 }
     
 const getReviewsOfProduct= async (req,res)=>{
@@ -44,8 +43,8 @@ const getReviewsOfProduct= async (req,res)=>{
     }else{
         res.json ({success:false,message:"data is missing"});    
     }
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
     
@@ -63,10 +62,9 @@ const addLike = async (req,res) =>{
                         { $set: {reviewLikes :true}});
                  res.json ({success:true});
             }
-        }catch(e){
-        console.log(e)
-        res.json ({success:false});
-    }
+        }catch(err){
+            res.json ({success:false , error : err});
+        }
 }
 
 const removeLike = async (req,res) =>{  
@@ -82,10 +80,9 @@ const removeLike = async (req,res) =>{
                     { $set: {reviewLikes :false}});
              res.json ({success:true});
         }
-    }catch(e){
-    console.log(e)
-    res.json ({success:false});
-}
+    }catch(err){
+        res.json ({success:false , error : err});
+    }
 }
 
 // you have to pass id of product and client in params and rating number in body
@@ -102,9 +99,8 @@ const addRating = async (req,res) =>{
                 { $set: {raiting :raiting}});
          res.json ({success:true});
     }
-}catch(e){
-console.log(e)
-res.json ({success:false});
+}catch(err){
+    res.json ({success:false , error : err});
 }
 }
 
@@ -117,8 +113,8 @@ const deleteReview = async (req,res) =>{
         }else{
             res.json ({success:false,message:"data is missing"});    
         }
-    }catch(e){
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 module.exports = {

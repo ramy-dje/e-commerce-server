@@ -36,8 +36,8 @@ const createAdmin = async (req,res) =>{
                     await create.save();
                     res.json ({success:true});
                 }
-            }catch{
-            res.json ({success:false});
+            }catch(err){
+            res.json ({success:false , error : err});
         }
 }
 
@@ -105,18 +105,17 @@ const updateAdmin = async (req,res) =>{
                 res.json ({success:true});
             }
 
-        }catch(e){
-            console.log(e)
-        res.json ({success:false});
-    }
+        }catch(err){
+            res.json ({success:false , error : err});
+        }
 }
 
 const getAllAdmins= async (req,res)=>{
     try{
         let result = await admin.find();
         res.json(result);
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -129,8 +128,8 @@ const getOneAdmin = async (req , res) =>{
         }else{
             res.json ({success:false,message:"data is missing"});    
         }
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -144,8 +143,8 @@ const deleteAdmin = async (req,res) =>{
         }else{
             res.json ({success:false,message:"data is missing"});    
         }
-    }catch(e){
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 

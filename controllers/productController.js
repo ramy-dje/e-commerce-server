@@ -56,10 +56,9 @@ const addProduct = async (req,res) =>{
                     await create.save();
                     res.json ({success:true});
                 }
-            }catch(e){
-                console.log(e)
-            res.json ({success:false});
-        }
+            }catch(err){
+                res.json ({success:false , error : err});
+            }
 }
 
 const getOneProduct= async (req,res)=>{
@@ -71,8 +70,8 @@ try{
     }else{
         res.json ({success:false,message:"data is missing"});    
     }
-}catch{
-    res.json ({success:false});
+}catch(err){
+    res.json ({success:false , error : err});
 }
 }
 
@@ -80,8 +79,8 @@ const getAllProducts = async (req,res)=>{
     try{
         let result = await product.find();
         res.json(result);
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -90,8 +89,8 @@ const getAllProductsByCreatorName = async (req,res)=>{
         const {creatorName} = req.body ;
         let result = await product.find({creatorName : creatorName});
         res.json(result);
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -100,8 +99,8 @@ const getAllProductsByCategory = async (req,res)=>{
         const {category} = req.body ;
         let result = await product.find({category : category});
         res.json(result);
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -171,10 +170,9 @@ const updateProduct = async (req,res) =>{
                 res.json ({success:true});
             }
 
-        }catch(e){
-            console.log(e)
-        res.json ({success:false});
-    }
+        }catch(err){
+            res.json ({success:false , error : err});
+        }
 }
 
 const deleteProduct = async (req,res) =>{
@@ -186,8 +184,8 @@ const deleteProduct = async (req,res) =>{
         }else{
             res.json ({success:false,message:"data is missing"});    
         }
-    }catch(e){
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 module.exports = {

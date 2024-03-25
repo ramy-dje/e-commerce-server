@@ -44,9 +44,9 @@ const createSeller = async (req,res) =>{
                         await create.save();
                         res.json ({success:true});
                     }
-                }catch{
-                res.json ({success:false});
-            }
+                }catch(err){
+                    res.json ({success:false , error : err});
+                }
 }
     
 const acceptSeller = async (req,res) =>{
@@ -60,8 +60,8 @@ const acceptSeller = async (req,res) =>{
             await seller.updateOne({ _id: id }, { $set: {isAccepted : true}});
             res.json ({success:true});
         }
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
    
@@ -76,8 +76,8 @@ const setProfestionalSeller = async (req,res) =>{
             await seller.updateOne({ _id: id }, { $set: {isProffestionalAccount : true}});
             res.json ({success:true});
         }
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -145,17 +145,17 @@ const updateSeller = async (req,res) =>{
                 res.json ({success:true});
             }
 
-        }catch{
-        res.json ({success:false});
-    }
+        }catch(err){
+            res.json ({success:false , error : err});
+        }
 }
 
 const getAllSellers= async (req,res)=>{
         try{
             let result = await seller.find();
             res.json(result);
-        }catch{
-            res.json ({success:false});
+        }catch(err){
+            res.json ({success:false , error : err});
         }
 }
  
@@ -163,8 +163,8 @@ const getProfestionalSellers= async (req,res)=>{
     try{
         let result = await seller.find({isProffestionalAccount : true});
         res.json(result);
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -177,8 +177,8 @@ const getOneSeller = async (req , res) =>{
             }else{
                 res.json ({success:false,message:"data is missing"});    
             }
-        }catch{
-            res.json ({success:false});
+        }catch(err){
+            res.json ({success:false , error : err});
         }
 }
     
@@ -192,8 +192,8 @@ const deleteSeller = async (req,res) =>{
             }else{
                 res.json ({success:false,message:"data is missing"});    
             }
-        }catch(e){
-            res.json ({success:false});
+        }catch(err){
+            res.json ({success:false , error : err});
         }
 }
     

@@ -48,18 +48,17 @@ const makeDelivery = async (req,res) =>{
                         await create.save();
                         res.json ({success:true});
                     }
-                }catch(e){
-                    console.log(e)
-                res.json ({success:false});
-            }
+                }catch(err){
+                    res.json ({success:false , error : err});
+                }
 }
     
 const getDeliveries = async (req,res)=>{
         try{
             let result = await delivery.find();
             res.json(result);
-        }catch{
-            res.json ({success:false});
+        }catch(err){
+            res.json ({success:false , error : err});
         }
 }
     
@@ -93,8 +92,8 @@ const getDeliveryByFilter = async (req,res)=>{
             }else{
                 res.json ({success:false});
             }
-        }catch{
-            res.json ({success:false});
+        }catch(err){
+            res.json ({success:false , error : err});
         }
 }
     
@@ -128,10 +127,9 @@ const setTracking = async (req,res) =>{
                     res.json ({success:true});
                 }
     
-            }catch(e){
-                console.log(e)
-            res.json ({success:false});
-        }
+            }catch(err){
+                res.json ({success:false , error : err});
+            }
 }
     
 const deleteDelivery = async (req,res) =>{
@@ -143,8 +141,8 @@ const deleteDelivery = async (req,res) =>{
             }else{
                 res.json ({success:false,message:"data is missing"});    
             }
-        }catch(e){
-            res.json ({success:false});
+        }catch(err){
+            res.json ({success:false , error : err});
         }
 }
 module.exports = {

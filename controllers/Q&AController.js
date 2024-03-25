@@ -23,10 +23,9 @@ const createQandA= async (req,res) =>{
                     await create.save();
                     res.json ({success:true});
                 }
-            }catch(e){
-                console.log(e)
-            res.json ({success:false});
-        }
+            }catch(err){
+                res.json ({success:false , error : err});
+            }
 }
 
 // you have to pass the id and store in params
@@ -58,9 +57,8 @@ const addQuestion= async (req,res) =>{
                 res.json ({success:true});
             }
 
-    }catch(e){
-            console.log(e)
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 
 }
@@ -92,9 +90,8 @@ const addAnswer= async (req,res) =>{
                 res.json ({success:true});
             }
 
-    }catch(e){
-            console.log(e)
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 
 }
@@ -104,8 +101,8 @@ const getQandA = async (req,res)=>{
         const {product,store} =req.params;
         let result = await QandA.find({$and :[{ product: product },{ store: store}]});
         res.json(result);
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -139,10 +136,9 @@ const updateQandA = async (req,res) =>{
                 res.json ({success:true});
             }
 
-        }catch(e){
-            console.log(e)
-        res.json ({success:false});
-    }
+        }catch(err){
+            res.json ({success:false , error : err});
+        }
 }
 
 const deleteQandA = async (req,res) =>{
@@ -154,8 +150,8 @@ const deleteQandA = async (req,res) =>{
         }else{
             res.json ({success:false,message:"data is missing"});    
         }
-    }catch(e){
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 module.exports = {

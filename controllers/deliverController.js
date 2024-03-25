@@ -13,8 +13,8 @@ const createDeliver = async (req,res) =>{
             await create.save();
             res.json ({success:true});
         }
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -22,8 +22,8 @@ const getDelivers = async (req,res)=>{
     try{
         let result = await deliver.find();
         res.json(result);
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -36,8 +36,8 @@ const getOneDeliver = async (req,res)=>{
         }else{
             res.json ({success:false,message:"data is missing"});    
         }
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -50,8 +50,8 @@ const updateDeliver = async (req,res)=>{
         }else{
             res.json ({success:false,message:"data is missing"});    
         }
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -64,8 +64,8 @@ const deleteDeliver = async (req,res) =>{
         }else{
             res.json ({success:false,message:"data is missing"});    
         }
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 module.exports = {

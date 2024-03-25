@@ -21,10 +21,9 @@ const sendSuportMessage= async (req,res) =>{
                     await create.save();
                     res.json ({success:true});
                 }
-            }catch(e){
-                console.log(e)
-            res.json ({success:false});
-        }
+            }catch(err){
+                res.json ({success:false , error : err});
+            }
 }
 
 const getSuportMessages = async (req,res)=>{
@@ -32,8 +31,8 @@ const getSuportMessages = async (req,res)=>{
         const {sender,reciver} = req.params;
         let result = await cntactSuport.find({$and :[{ sender: sender },{ reciver: reciver}]});
         res.json(result);
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -46,8 +45,8 @@ const deleteSuportMessage = async (req,res) =>{
         }else{
             res.json ({success:false,message:"data is missing"});    
         }
-    }catch(e){
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 

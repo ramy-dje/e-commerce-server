@@ -32,10 +32,9 @@ const createClient = async (req,res) =>{
                     await create.save();
                     res.json ({success:true});
                 }
-            }catch(e){
-                console.log(e)
-            res.json ({success:false});
-        }
+            }catch(err){
+                res.json ({success:false , error : err});
+            }
 }
 
 const updateClient = async (req,res) =>{
@@ -99,10 +98,9 @@ const updateClient = async (req,res) =>{
                 res.json ({success:true});
             }
 
-        }catch(e){
-            console.log(e)
-        res.json ({success:false});
-    }
+        }catch(err){
+            res.json ({success:false , error : err});
+        }
 }
 
 const changeStar = async (req ,res) =>{
@@ -122,17 +120,16 @@ const changeStar = async (req ,res) =>{
                 res.json ({success:true});
             }
 
-        }catch(e){
-            console.log(e)
-        res.json ({success:false});
-    }
+        }catch(err){
+            res.json ({success:false , error : err});
+        }
 }
 const getAllClients= async (req,res)=>{
     try{
         let result = await client.find();
         res.json(result);
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -145,8 +142,8 @@ const getOneClient = async (req , res) =>{
         }else{
             res.json ({success:false,message:"data is missing"});    
         }
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -175,8 +172,8 @@ const getAllClientsByFilter = async (req , res) =>{
         }else{
             res.json ({success:false,message:"data is missing"});    
         }
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -189,8 +186,8 @@ const getStar = async (req,res) =>{
         }else{
             res.json ({success:false,message:"data is missing"});    
         }
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -203,8 +200,8 @@ const deleteClient = async (req,res) =>{
         }else{
             res.json ({success:false,message:"data is missing"});    
         }
-    }catch(e){
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 

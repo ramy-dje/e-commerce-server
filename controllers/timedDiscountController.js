@@ -29,10 +29,9 @@ const createDiscount = async (req,res) =>{
                     await create.save();
                     res.json ({success:true});
                 }
-            }catch(e){
-                console.log(e)
-            res.json ({success:false});
-        }
+            }catch(err){
+                res.json ({success:false , error : err});
+            }
 }
 
 const getOneTimedDiscount= async (req,res)=>{
@@ -44,8 +43,8 @@ try{
     }else{
         res.json ({success:false,message:"data is missing"});    
     }
-}catch{
-    res.json ({success:false});
+}catch(err){
+    res.json ({success:false , error : err});
 }
 }
 
@@ -53,8 +52,8 @@ const getAllTimedDiscounts = async (req,res)=>{
     try{
         let result = await timedDiscount.find();
         res.json(result);
-    }catch{
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 
@@ -86,10 +85,9 @@ const changeExpireTime = async (req,res) =>{
                 res.json ({success:true});
             }
 
-        }catch(e){
-            console.log(e)
-        res.json ({success:false});
-    }
+        }catch(err){
+            res.json ({success:false , error : err});
+        }
 }
 
 const changePercentage = async (req,res) =>{
@@ -120,10 +118,9 @@ const changePercentage = async (req,res) =>{
                 res.json ({success:true});
             }
 
-        }catch(e){
-            console.log(e)
-        res.json ({success:false});
-    }
+        }catch(err){
+            res.json ({success:false , error : err});
+        }
 }
 
 const deleteDiscount = async (req,res) =>{
@@ -135,8 +132,8 @@ const deleteDiscount = async (req,res) =>{
         }else{
             res.json ({success:false,message:"data is missing"});    
         }
-    }catch(e){
-        res.json ({success:false});
+    }catch(err){
+        res.json ({success:false , error : err});
     }
 }
 module.exports = {
