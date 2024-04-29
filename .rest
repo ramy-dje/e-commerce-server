@@ -1,0 +1,46 @@
+POST http://localhost:3000/client/create
+Content-Type: application/json
+
+{
+    "firstName" : "router",
+    "lastName" : "router",
+    "gender" : "male",
+    "dateOfBirth" : "'02-02-2002'",
+    "avatar" : "avaroute",
+    "email" : "rouet",
+    "phoneNumber" : 766666659,
+    "password" : "router",
+    "star" : 5
+}
+
+
+
+###
+GET http://localhost:3000/store/get/all
+###
+POST http://localhost:3000/client/get/filter
+Content-Type: application/json
+
+{
+    "filter":"gender",
+    "filterValue" : "female"
+}
+###
+GET http://localhost:3000/client/get/star/65f46a7ed0016a11fa857dbc
+###
+PUT http://localhost:3000/client/update/star/65f46a7ed0016a11fa857dbc
+Content-Type: application/json
+
+{
+    "star" : 5000
+    //"firstName" : "teboun",
+    //"lastName" : "3ami"
+    //"gender" : "male",
+    //"dateOfBirth" : "'02-02-2002'",
+    //"avatar" : "avaroute",
+    //"email" : "rouet",
+    //"phoneNumber" : 766666659,
+    //"password" : "router"
+}
+###
+DELETE http://localhost:3000/seller/delete/65f55113043c0011ebd4d59b

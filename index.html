@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>hello it me duo !!</h1>
+    <button>test api</button>
+    <script>
+           // Select the button and create the data object
+           let btn = document.querySelector('button');
+        
+        
+           let obj = {
+            clientId : "dfssfddf",
+            sellerId : "fdsfsdsfdfsd",
+            productId : "fdfsfsdsd",
+            reason : "fdsfdsfdsfdsfsd"
+        };
+
+        // Convert the object to JSON
+        obj = JSON.stringify(obj);
+
+        // Add a click event listener to the button
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // Send a POST request using Fetch API
+            fetch('http://localhost:3000/spam/create', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: obj
+            })
+            .then((data) => data.json())
+            .then((data) => console.log(data))
+            .catch((err) => console.log(err));
+        });
+    </script>
+</body>
+</html>
