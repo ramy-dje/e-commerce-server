@@ -5,6 +5,14 @@ const productSchema = new Schema({
     creatorName : String,
     weight : String,
     category : String,
-    dimenstions : String
+    dimensions : String,
+    price : Number,
+    colors : [String],
+    brand : String,
+    images  : [String],
+    videos : [String],
+    models3D : [String],
+    tagsOrKeywords : [String],
+    description :String
 });
 module.exports = mongoose.model("product", productSchema);

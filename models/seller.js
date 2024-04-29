@@ -10,7 +10,14 @@ const sellerSchema = new Schema({
     phoneNumber:Number,
     password:String,
     commerceRegistrNumber:Number,
-    isProffestionalAccount:Boolean,
-    isAccepted:Boolean
+    age:Number,
+    isProffestionalAccount:{
+        type : Boolean,
+        default : false
+    },
+    isAccepted:{
+        type : Boolean,
+        default : false
+    }
 });
 module.exports = mongoose.model("seller", sellerSchema);

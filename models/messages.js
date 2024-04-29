@@ -10,6 +10,9 @@ const messagesSchema = new Schema({
         //ref : ['seller', 'client'],
     },
     message : String ,
-    date : Date
+    date : {
+        type :Date,
+        default : Date.now()
+    }
 });
 module.exports = mongoose.model("messages", messagesSchema);

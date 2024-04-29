@@ -1,15 +1,14 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const spamSchema = new Schema({
-    clientId:{
+    client:{
         type: mongoose.SchemaTypes.ObjectId,
         ref: "client",
     },
-    sellerId : {
+    type : String , // seller || product
+    idType : {
         type: mongoose.SchemaTypes.ObjectId,
-    },
-    productId : {
-        type: mongoose.SchemaTypes.ObjectId,
+        //ref : ['seller', 'product'],
     },
     reason : String,
     date : Date,

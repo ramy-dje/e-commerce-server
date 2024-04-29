@@ -14,6 +14,10 @@ const reviewsSchema = new Schema({
         ref: "client",
     },
     reviewText : String,
-    reviewLikes : Number,
+    reviewLikes : {
+        type : Boolean,
+        default : false
+    },
+    raiting : Number
 });
 module.exports = mongoose.model("reviews", reviewsSchema);

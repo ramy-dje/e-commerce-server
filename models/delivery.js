@@ -13,7 +13,14 @@ const deliverySchema = new Schema({
         type: mongoose.SchemaTypes.ObjectId,
         ref: "product",
     },
-    date : Date ,
+    store:{
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: "store",
+    },
+    date :{
+        type : Date,
+        default : Date.now()
+    },
     payedPrice : Number ,
     timeOfDelivery : Date ,
     productTracking : String
