@@ -1,8 +1,12 @@
 const express = require ("express");
 const mongoose = require ("mongoose");
+const http = require('http')
 require('dotenv').config();
 
+
 const app = express();
+const server = http.createServer(app)
+
 app.use(express.json());
 
 const admin = require("./router/adminRouter");
@@ -20,6 +24,7 @@ const QandA = require("./router/Q&ARouter");
 const couponDiscount =require("./router/couponDiscountRouter");
 const timedDiscount = require("./router/timedDiscountRouter");
 const message = require("./router/messageRouter");
+const auth = require("./router/auth");
 
 mongoose.connect(process.env.database).then(
     ()=>{
@@ -52,3 +57,8 @@ app.use("/QandA",QandA);
 app.use("/couponDiscount",couponDiscount);
 app.use("/timedDiscount",timedDiscount);
 app.use("/message",message);
+app.use("/",auth);
+
+module.exports={
+    server
+}
