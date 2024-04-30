@@ -9,13 +9,13 @@ const storeSchema = new Schema({
         type: mongoose.SchemaTypes.ObjectId,
         ref: "product",
     }],
-    visitors : [{
+    folowers : [{
         type: mongoose.SchemaTypes.ObjectId,
-        ref: "client",
+        ref: "user",
     }],
-    folows : [{
+    likes:[{
         type: mongoose.SchemaTypes.ObjectId,
-        ref: "client",
+        ref: "user",
     }],
     name : String,
     logo : String,
