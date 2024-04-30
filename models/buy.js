@@ -18,10 +18,12 @@ const buySchema = new Schema({
             quantity : Number, 
         },
     ],
-    shippingSupplier: String,
+    shippingSupplier: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: "deliver",
+    },
     paymentMode : String,
     price : Number,
-    estimatedDelivryTime : Date,
     date : Date,
 });
 module.exports = mongoose.model("buy", buySchema);

@@ -7,7 +7,7 @@ const refundsSchema = new Schema({
     },
     client : {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: "client",
+        ref: "user",
     },
     product:{
         type: mongoose.SchemaTypes.ObjectId,

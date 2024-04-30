@@ -3,11 +3,11 @@ const Schema = mongoose.Schema;
 const messagesSchema = new Schema({
     sender:{
         type: mongoose.SchemaTypes.ObjectId,
-        //ref : ['seller', 'client'],
+        ref : 'user',
     },
     reciver:{
         type: mongoose.SchemaTypes.ObjectId,
-        //ref : ['seller', 'client'],
+        ref : 'user',
     },
     message : String ,
     date : {

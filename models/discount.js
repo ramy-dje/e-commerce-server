@@ -11,9 +11,12 @@ const couponDiscountSchema = new Schema({
     },
     percentage : Number,
     code : String,
+    timeToEnd:String,
+    type:String,
     isRuning :{
         type :Boolean,
         default : true
-    }
+    },
+
 });
 module.exports = mongoose.model("couponDiscount", couponDiscountSchema);
