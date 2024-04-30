@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const token = require('../utils/jwt');
 const clientSchema = require('../models/client')
+const userSchema = require('../models/User')
 
 
 
@@ -10,7 +11,7 @@ const login = async(req,res)=>{
         if(!email || !password){
             return res.json({success:false,message:"data is missing"});
         }
-        const client  = await clientSchema.findOne({email});
+        const client  = await userSchema.findOne({email});
         if(!client){
             return res.json({success:false,message:"client not found"});
         }
@@ -20,13 +21,46 @@ const login = async(req,res)=>{
             return res.json({success:false,message:"password is wrong"});
         }
         const tkn = token.createToken(email);
-        res.cookie("token",token)
+        res.cookie("token",tkn)
         res.json({success:true,message:"client logged in successfully"});
     }catch(e){
         res.status(404).json({success:false,message:e});
     }
 }
 
+const signUp = async (req, res) => {
+    try {
+      const { firstName, lastName, dateOfBirth, phoneNumber, email, password } = req.body;
+      let image = null;
+      if (req.file) {
+        image = req.file?.filename;
+      }
+      const existingUser = await userSchema.findOne({ email });
+      if (existingUser) {
+        return res.json({ success: false, message: 'this email already exists' });
+      }
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+      const user = await userSchema.create({
+        firstName,
+        lastName,
+        dateOfBirth,
+        phoneNumber,
+        email,
+        image,
+        password: hashedPassword,
+      });
+      const tkn = token.createToken(email);
+      res.cookie("token",tkn)
+      return res.json({ success: true, user, token });
+    } catch (err) {
+      console.log(err);
+      return res.json({ success: false, message: err });
+    }
+  };
+
+
 module.exports = {
-    login    
+    login,
+    signUp    
 }
