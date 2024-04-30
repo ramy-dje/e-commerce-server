@@ -24,7 +24,7 @@ router.get("/get/shippingSupplier/:shippingSupplier",buyCont.getPurchasesByShipp
 router.get("/get/paymentMode/:paymentMode",buyCont.getPurchasesByPaymentMode);
 
 // ########## UPDATE
-router.put('/update/accept/:id' , buyCont.acceptSpam);
+//router.put('/update/accept/:id' , buyCont.acceptSpam);
 
 
 // ######### DELETE

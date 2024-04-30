@@ -12,7 +12,7 @@ const createClient = async (req,res) =>{
                 phoneNumber,password,
                 star
             }= req.body;
-            
+
             if(!(firstName && lastName && gender &&
                 dateOfBirth && avatar && email && 
                 phoneNumber && password && 
@@ -46,7 +46,7 @@ const updateClient = async (req,res) =>{
             dateOfBirth,avatar,email,
             phoneNumber,password
         }= req.body;
-        
+
 
             let id =req.params.id;
 

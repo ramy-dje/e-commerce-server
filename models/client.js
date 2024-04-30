@@ -10,6 +10,5 @@ const clientSchema = new Schema({
     phoneNumber:Number,
     password:String,
     star : Number,
-    age : Number
 });
 module.exports = mongoose.model("client", clientSchema);

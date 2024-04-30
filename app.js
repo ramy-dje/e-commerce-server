@@ -1,5 +1,9 @@
 const express = require ("express");
 const mongoose = require ("mongoose");
+require('dotenv').config();
+
+const app = express();
+app.use(express.json());
 
 const admin = require("./router/adminRouter");
 const seller = require("./router/sellerRouter");
@@ -17,13 +21,10 @@ const couponDiscount =require("./router/couponDiscountRouter");
 const timedDiscount = require("./router/timedDiscountRouter");
 const message = require("./router/messageRouter");
 
-require('dotenv').config();
-const app = express();
-app.use(express.json());
 mongoose.connect(process.env.database).then(
     ()=>{
     console.log("acces to database");
-    app.listen(process.env.port,(err)=>{
+    app.listen(process.env.PORT,(err)=>{
     if(err){
         console.log(err);
     }else{

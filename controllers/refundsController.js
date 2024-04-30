@@ -52,7 +52,7 @@ const deleteRefund = async (req,res)=>{
     }catch(err){
         res.json ({success:false , error : err});
     }
-    
+
 }
 
 const acceptRefund = async (req,res)=>{
@@ -67,7 +67,7 @@ const acceptRefund = async (req,res)=>{
     }catch(err){
         res.json ({success:false , error : err});
     }
-    
+
 }
 
 module.exports = {

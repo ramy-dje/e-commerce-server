@@ -34,7 +34,7 @@ const deleteSpam= async (req,res)=>{
     }catch(err){
         res.json ({success:false , error : err});
     }
-    
+
 }
 
 const acceptSpam= async (req,res)=>{
@@ -49,11 +49,11 @@ const acceptSpam= async (req,res)=>{
         } catch (error) {
             res.status(500).json({ success: false, message: "Error updating spam" });
         }
-        
+
     }catch(err){
         res.json ({success:false , error : err});
     }
-    
+
 }
 
 module.exports = {

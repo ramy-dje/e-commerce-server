@@ -14,7 +14,7 @@ const router = express.Router();
 router.post("/create",spamCont.createSpam);
 
 // ########## GET 
-router.get("/get/:id" , spamCont.getOneDeliver);
+//router.get("/get/:id" , spamCont.getOneDeliver);
 router.get("/get/all",spamCont.getAllSpams);
 
 // ########## UPDATE
