@@ -24,7 +24,7 @@ const auth = require("./router/auth");
 mongoose.connect(process.env.database).then(
     ()=>{
     console.log("acces to database");
-    app.listen(process.env.PORT,(err)=>{
+    app.listen(process.env.port,(err)=>{
     if(err){
         console.log(err);
     }else{
