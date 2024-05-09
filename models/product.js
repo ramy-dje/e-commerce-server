@@ -10,8 +10,7 @@ const productSchema = new Schema({
     colors : [String],
     brand : String,
     images  : [String],
-    //videos : [String],
-    //models3D : [String],
+    reviews : [Object],
     tagsOrKeywords : [String],
     description :String
 });

@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const token = require('../utils/jwt');
 const clientSchema = require('../models/client')
 const userSchema = require('../models/User')
+const Product = require('../models/product')
 
 
 
@@ -60,46 +61,8 @@ const signUp = async (req, res) => {
   };
 
 
-module.exports = {
-    login,
-    signUp    
-}
-/*
-const createClient = async (req,res) =>{
 
-        try{
-            let {
-                firstName,lastName,gender,
-                dateOfBirth,avatar,email,
-                phoneNumber,password,
-                star
-            }= req.body;
-
-            if(!(firstName && lastName && gender &&
-                dateOfBirth && avatar && email && 
-                phoneNumber && password && 
-                star)){
-                    res.json ({success:false,message:"data is missing"});    
-                }else{
-                    password = await bcrypt.hash(password, 10);
-                    let dob = new Date(dateOfBirth);
-                    let dd =new Date (Date.now());
-                    let age = dd.getFullYear() - dob.getFullYear();
-                    let create =await new client ({
-                        firstName,lastName,gender,
-                        dateOfBirth,avatar,email,
-                        phoneNumber,password,
-                        star,age
-                    });
-                    await create.save();
-                    res.json ({success:true});
-                }
-            }catch(err){
-                res.json ({success:false , error : err});
-            }
-}
-
-const updateClient = async (req,res) =>{
+const updateUser = async (req,res) =>{
 
     try{
 
@@ -126,7 +89,7 @@ const updateClient = async (req,res) =>{
                     let dob = new Date(dateOfBirth);
                     let dd =new Date (Date.now());
                     let age = dd.getFullYear() - dob.getFullYear();
-                    await client.updateOne({ _id: id }, { $set: 
+                    await userSchema.updateOne({ _id: id }, { $set: 
                         {
                             firstName,
                             lastName,
@@ -136,13 +99,13 @@ const updateClient = async (req,res) =>{
                             email,
                             phoneNumber,
                             password,
-                            star,
+                          
                             age
                         }
                     });
                 }else{
 
-                    await client.updateOne({ _id: id }, { $set: 
+                    await userSchema.updateOne({ _id: id }, { $set: 
                         {
                             firstName,
                             lastName,
@@ -152,7 +115,6 @@ const updateClient = async (req,res) =>{
                             email,
                             phoneNumber,
                             password,
-                            star
                         }
                     });
                 }
@@ -165,41 +127,20 @@ const updateClient = async (req,res) =>{
         }
 }
 
-const changeStar = async (req ,res) =>{
+const getAllusers= async (req,res)=>{
     try{
-
-        let {star}= req.body;
-        let id =req.params.id;
-
-
-            if(!(id && star))
-            {
-                res.json ({success:false,message:"data is missing"});    
-            }else{
-
-                await client.updateOne({ _id: id }, { $set: {star} });
-
-                res.json ({success:true});
-            }
-
-        }catch(err){
-            res.json ({success:false , error : err});
-        }
-}
-const getAllClients= async (req,res)=>{
-    try{
-        let result = await client.find();
+        let result = await userSchema.find();
         res.json(result);
     }catch(err){
         res.json ({success:false , error : err});
     }
 }
 
-const getOneClient = async (req , res) =>{
+const getOneUser = async (req , res) =>{
     try{
         let id = req.params.id;
         if(id){
-            let result = await client.findById(id);
+            let result = await userSchema.findById(id);
             res.json(result);
         }else{
             res.json ({success:false,message:"data is missing"});    
@@ -209,56 +150,13 @@ const getOneClient = async (req , res) =>{
     }
 }
 
-/**
- * filter = age || gender
- * gender = male || female
- * age = 20,21,22 ...etc
- */
-// you have to pass filter and filter value 
-/*
-const getAllClientsByFilter = async (req , res) =>{
-    try{
-        const {filter , filterValue} = req.body;
-        if(filter && filterValue){
-            let result = "";
 
-            switch (filter){
-                case 'age':
-                    result = await client.find({age : filterValue});
-                break;
-                case 'gender':
-                    result = await client.find({gender : filterValue});
-                break;
-            }
 
-            res.json(result);
-        }else{
-            res.json ({success:false,message:"data is missing"});    
-        }
-    }catch(err){
-        res.json ({success:false , error : err});
-    }
-}
-
-const getStar = async (req,res) =>{
+const deleteUser = async (req,res) =>{
     try{
         let id = req.params.id;
         if(id){
-            let result = await client.findById(id);
-            res.json(result.star);
-        }else{
-            res.json ({success:false,message:"data is missing"});    
-        }
-    }catch(err){
-        res.json ({success:false , error : err});
-    }
-}
-
-const deleteClient = async (req,res) =>{
-    try{
-        let id = req.params.id;
-        if(id){
-            await client.findByIdAndDelete(id);
+            await userSchema.findByIdAndDelete(id);
             res.json ({success:true});
         }else{
             res.json ({success:false,message:"data is missing"});    
@@ -267,4 +165,31 @@ const deleteClient = async (req,res) =>{
         res.json ({success:false , error : err});
     }
 }
-*/
+///// added controllers
+const likeProduct = async (req,res) => {
+    try {
+      const userId = req.userId;
+      const product = await Product.findById(req.params.id);
+      if (!product) {
+        throw new Error("the product does not exist");
+      }
+      const index = product.likedProducts.findIndex((id) => id == userId);
+      if (index == -1) {
+        product.likedProducts.push(userId);
+      } else {
+        product.likedProducts.filter((e)=>e == userId)
+      }
+      await product.save();
+      res.status(200).json({ success: true ,message:'product saved'});
+    } catch (err) {
+      ErrorHandler(err, 400, res);
+    }
+  };
+
+    
+
+
+module.exports = {
+    login,
+    signUp    
+}

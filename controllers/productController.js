@@ -13,8 +13,6 @@ const addProduct = async (req,res) =>{
                 colors,
                 brand,
                 images,
-                videos,
-                models3D,
                 tagsOrKeywords,
                 description
             }= req.body;
@@ -22,16 +20,8 @@ const addProduct = async (req,res) =>{
             if(!(       
                 name &&
                 creatorName &&
-                weight &&
-                category &&
-                dimensions &&
-                price &&
                 colors &&
-                brand &&
                 images &&
-                videos &&
-                models3D &&
-                tagsOrKeywords &&
                 description
                 )){
                     res.json ({success:false,message:"data is missing"});    
@@ -118,8 +108,6 @@ const updateProduct = async (req,res) =>{
             colors,
             brand,
             images,
-            videos,
-            models3D,
             tagsOrKeywords,
             description
         }= req.body;
@@ -131,16 +119,11 @@ const updateProduct = async (req,res) =>{
             if(!(id && (
                 name ||
                 creatorName ||
-                weight ||
                 category ||
-                dimensions ||
                 price ||
                 colors ||
                 brand ||
                 images ||
-                videos ||
-                models3D ||
-                tagsOrKeywords ||
                 description
             )))
             {
@@ -188,6 +171,25 @@ const deleteProduct = async (req,res) =>{
         res.json ({success:false , error : err});
     }
 }
+
+///// added
+const reviewProduct = async (req,res) => {
+    try {
+      const userId = req.userId;
+      const {review,productId} = req.body;
+      const Product = await product.findById(productId);
+      if (!Product) {
+        throw new Error("the product does not exist");
+      }
+      Product.reviews.push({userId,review});
+      await Product.save();
+      res.status(200).json({ success: true ,message:'product saved'});
+    } catch (err) {
+      ErrorHandler(err, 400, res);
+    }
+  };
+
+
 module.exports = {
     addProduct,
     getAllProducts,
@@ -195,5 +197,6 @@ module.exports = {
     getAllProductsByCategory,
     getAllProductsByCreatorName,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    reviewProduct
 }

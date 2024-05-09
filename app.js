@@ -11,15 +11,18 @@ app.use(express.json());
 
 
 const store = require("./router/storeRouter");
-const deliver = require("./router/deliverRouter");
-const delivery = require("./router/deliveryRouter");
-
 const buy = require("./router/buyRouter");
-
 const refund = require("./router/refundRouter");
-
 const message = require("./router/messageRouter");
 const auth = require("./router/auth");
+const product = require("./router/productRouter");
+
+app.use("/store",store);
+app.use("/buy",buy);
+app.use("/refund",refund);
+app.use("/message",message);
+app.use("/",auth);
+
 
 mongoose.connect(process.env.database).then(
     ()=>{
@@ -38,15 +41,6 @@ console.log(err)
 );
 
 
-app.use("/store",store);
-app.use("/deliver",deliver);
-app.use("/delivery",delivery);
-
-app.use("/buy",buy);
-
-app.use("/refund",refund);
-app.use("/message",message);
-app.use("/",auth);
 
 module.exports={
     server
