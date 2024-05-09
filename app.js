@@ -5,7 +5,7 @@ require('dotenv').config();
 
 
 const app = express();
-const server = http.createServer(app)
+const server = http.createServer(app);
 
 app.use(express.json());
 
@@ -13,11 +13,8 @@ app.use(express.json());
 const store = require("./router/storeRouter");
 const deliver = require("./router/deliverRouter");
 const delivery = require("./router/deliveryRouter");
-
 const buy = require("./router/buyRouter");
-
 const refund = require("./router/refundRouter");
-
 const message = require("./router/messageRouter");
 const auth = require("./router/auth");
 
