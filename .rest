@@ -1,8 +1,0 @@
-POST http://localhost:3000/likedProduct/65f55a08b588557ddc8e0f89
-Content-Type: application/json
-
-{
-    "userId":"663e4ebe4c64e4b9e5cc2630"
-}
-###
-DELETE http://localhost:3000/delete/663e4ebe4c64e4b9e5cc2630
