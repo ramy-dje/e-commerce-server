@@ -17,6 +17,7 @@ const message = require("./router/messageRouter");
 const auth = require("./router/auth");
 const product = require("./router/productRouter");
 
+app.use("/product",product);
 app.use("/store",store);
 app.use("/buy",buy);
 app.use("/refund",refund);

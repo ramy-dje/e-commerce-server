@@ -150,8 +150,6 @@ const getOneUser = async (req , res) =>{
     }
 }
 
-
-
 const deleteUser = async (req,res) =>{
     try{
         let id = req.params.id;
@@ -182,14 +180,16 @@ const likeProduct = async (req,res) => {
       await product.save();
       res.status(200).json({ success: true ,message:'product saved'});
     } catch (err) {
-      ErrorHandler(err, 400, res);
+        ErrorHandler(err, 400, res);
     }
-  };
-
-    
-
+};
 
 module.exports = {
     login,
-    signUp    
+    signUp,
+    updateUser,
+    getAllusers,
+    getOneUser,
+    deleteUser,
+    likeProduct
 }

@@ -27,6 +27,9 @@ router.post("/get/all/category" ,productCont.getAllProductsByCategory);
 router.put('/update/:id' , productCont.updateProduct);
 
 
+// ########## ADD REVIEW PRODUCT
+router.put('/add/review-product/:userId' , productCont.reviewProduct);
+
 // ######### DELETE
 router.delete("/delete/:id", productCont.deleteProduct);
 

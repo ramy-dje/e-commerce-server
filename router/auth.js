@@ -1,4 +1,13 @@
-const {signUp,login} = require('../controllers/auth');
+const {
+  signUp,
+  login,
+  updateUser,
+  getAllusers,
+  getOneUser,
+  likeProduct,
+  deleteUser
+  } = require('../controllers/auth');
+
 const express = require('express');
 const router = express.Router();
 const multer = require('multer')
@@ -17,5 +26,18 @@ const storage = multer.diskStorage({
 
 router.post("/login",login);
 router.post("/signup", upload.single('file'), signUp);
+
+// ####### UPDATE USER
+router.post("/update/:id",updateUser);
+
+// ####### GET USER
+router.get("/getAll",getAllusers);
+router.get("/getOne/:id",getOneUser);
+
+// ####### LIKED PRODUCT
+router.post("/likedProduct/:id",likeProduct)
+
+// ####### DELETE USER 
+router.delete("/delete/:id",deleteUser);
 
 module.exports=router;
