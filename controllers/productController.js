@@ -5,43 +5,36 @@ const addProduct = async (req,res) =>{
         try{
             let {
                 name,
-                creatorName,
-                weight,
+                creatorId,
                 category,
-                dimensions,
                 price,
                 colors,
                 brand,
                 images,
-                tagsOrKeywords,
-                description
+                description,
+                sizes,
+                quantity
             }= req.body;
           
             if(!(       
-                name &&
-                creatorName &&
-                colors &&
-                images &&
-                description
-                )){
-                    res.json ({success:false,message:"data is missing"});    
-                }else{
+            name &&
+            creatorName
+            )){
+                res.json ({success:false,message:"data is missing"});    
+            }else{
 
-                    let create =await new product ({
-                        name,
-                        creatorName,
-                        weight,
-                        category,
-                        dimensions,
-                        price,
-                        colors,
-                        brand,
-                        images,
-                        videos,
-                        models3D,
-                        tagsOrKeywords,
-                        description
-                    });
+                let create = new product ({
+                    name,
+                    creatorId,
+                    category,
+                    price,
+                    colors,
+                    brand,
+                    images,
+                    description,
+                    sizes,
+                    quantity
+                });
 
                     await create.save();
                     res.json ({success:true});
@@ -100,62 +93,35 @@ const updateProduct = async (req,res) =>{
 
         let {
             name,
-            creatorName,
-            weight,
+            creatorId,
             category,
-            dimensions,
             price,
             colors,
             brand,
             images,
-            tagsOrKeywords,
-            description
+            description,
+            sizes,
+            quantity
         }= req.body;
-        
-
-            let id =req.params.id;
-
-
-            if(!(id && (
-                name ||
-                creatorName ||
-                category ||
-                price ||
-                colors ||
-                brand ||
-                images ||
-                description
-            )))
+        let id =req.params.id;
+        await product.updateOne({ _id: id }, { $set: 
             {
-                res.json ({success:false,message:"data is missing"});    
-            }else{
-
-
-                    await product.updateOne({ _id: id }, { $set: 
-                        {
-                            name,
-                            creatorName,
-                            weight,
-                            category,
-                            dimensions,
-                            price,
-                            colors,
-                            brand,
-                            images,
-                            videos,
-                            models3D,
-                            tagsOrKeywords,
-                            description
-                        }
-                    });
-                
-
-                res.json ({success:true});
+                name,
+                creatorId,
+                category,
+                price,
+                colors,
+                brand,
+                images,
+                description,
+                sizes,
+                quantity
             }
-
-        }catch(err){
-            res.json ({success:false , error : err});
-        }
+        });
+        res.json ({success:true});
+    }catch(err){
+        res.json ({success:false , error : err});
+    }
 }
 
 const deleteProduct = async (req,res) =>{

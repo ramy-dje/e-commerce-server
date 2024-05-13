@@ -1,28 +1,37 @@
 const express = require ("express");
 const mongoose = require ("mongoose");
 const http = require('http')
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const cors = require('cors')
 require('dotenv').config();
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDE_NAME,
+  api_key: process.env.CLOUD_API_NAME,
+  api_secret: process.env.CLOUDE_KEY,
+});
 
 
 const app = express();
 const server = http.createServer(app)
 
+
 app.use(express.json());
 app.use(cookieParser())
-
+app.use(cors({
+    origin:'*'
+}))
 
 const store = require("./router/storeRouter");
 const buy = require("./router/buyRouter");
 const refund = require("./router/refundRouter");
-const message = require("./router/messageRouter");
 const auth = require("./router/auth");
 const product = require("./router/productRouter");
 
 app.use("/store",store);
 app.use("/buy",buy);
 app.use("/refund",refund);
-app.use("/message",message);
 app.use("/",auth);
 
 
@@ -45,5 +54,6 @@ console.log(err)
 
 
 module.exports={
-    server
+    server,
+    cloudinary
 }

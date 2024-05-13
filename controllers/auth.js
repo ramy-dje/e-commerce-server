@@ -3,8 +3,7 @@ const token = require('../utils/jwt');
 const clientSchema = require('../models/client');
 const userSchema = require('../models/User');
 const Product = require('../models/product');
-
-
+const {cloudinary} = require('../app')
 
 const login = async(req,res)=>{
     try{
@@ -23,7 +22,7 @@ const login = async(req,res)=>{
         }
         const tkn =await token.createToken({id:client._id,email:client.email,role:client.role});
         res.cookie("token",tkn)
-        res.json({success:true,message:"client logged in successfully"});
+        res.json({success:true,message:"client logged in successfully",user});
     }catch(e){
         res.status(404).json({success:false,message:e});
     }
@@ -31,11 +30,8 @@ const login = async(req,res)=>{
 
 const signUp = async (req, res) => {
     try {
-      const { firstName, lastName, dateOfBirth, phoneNumber, email, password } = req.body;
-      let image = null;
-      if (req.file) {
-        image = req.file?.filename;
-      }
+      const { firstName, lastName,gender, email, password } = req.body;
+    
       const existingUser = await userSchema.findOne({ email });
       if (existingUser) {
         return res.json({ success: false, message: 'this email already exists' });
@@ -45,10 +41,8 @@ const signUp = async (req, res) => {
       const user = await userSchema.create({
         firstName,
         lastName,
-        dateOfBirth,
-        phoneNumber,
+        gender,
         email,
-        image,
         password: hashedPassword,
       });
       const tkn = token.createToken({id:user._id,email,role:user.role});
@@ -63,6 +57,8 @@ const signUp = async (req, res) => {
 
 
 const updateUser = async (req,res) =>{
+  var public_id=''
+  var url =''
 
     try{
 
@@ -76,42 +72,28 @@ const updateUser = async (req,res) =>{
         if(password){
             password = await bcrypt.hash(password, 10);
         }
-        if(dateOfBirth){
-            let dob = new Date(dateOfBirth);
-            let dd =new Date (Date.now());
-            let age = dd.getFullYear() - dob.getFullYear();
-            await userSchema.updateOne({ _id: id }, { $set: 
-                {
-                    firstName,
-                    lastName,
-                    gender,
-                    dateOfBirth,
-                    avatar,
-                    email,
-                    phoneNumber,
-                    password,
-                    age
-                }
-            });
-        }else{
-
-            await userSchema.updateOne({ _id: id }, { $set: 
-                {
-                    firstName,
-                    lastName,
-                    gender,
-                    dateOfBirth,
-                    avatar,
-                    email,
-                    phoneNumber,
-                    password,
-                }
-            });
+        if (image) {
+          const myCloud = await cloudinary.v2.uploader.upload(image.toString(), {
+            folder: "avatars",
+            width: 150,
+          });
+          public_id = myCloud.public_id;
+          url = myCloud.url;
         }
-
+       
+        await userSchema.updateOne({ _id: id }, { $set: 
+            {
+                firstName,
+                lastName,
+                gender,
+                dateOfBirth,
+                avatar:{public_id,url},
+                email,
+                phoneNumber,
+                password,
+            }
+        });
         res.json ({success:true});
-        
-
         }catch(err){
             res.json ({success:false , error : err});
         }
@@ -158,41 +140,45 @@ const deleteUser = async (req,res) =>{
 ///// added controllers
 const likeProduct = async (req,res) => {
     try {
-      const user = req.user;
-      const product = await userSchema.findById(req.params.id);
-      if (!product) {
-        throw new Error("the product does not exist");
-      }
-      const index = user.likedProducts.findIndex((id) => id == user.id);
-      if (index == -1) {
-        user.likedProducts.push(user._id);
-      } else {
-        user.likedProducts.filter((e)=>e == user.id)
-      }
-      await user.save();
-      res.status(200).json({ success: true ,message:'product saved'});
-    } catch (err) {
-      ErrorHandler(err, 400, res);
-    }
-  };
-  const reviewProduct = async (req,res) => {
-    try {
-      const userId = req.userId;
-      const user = await userSchema.findById(req.params.id);
-      if (!product) {
-        throw new Error("the product does not exist");
+      const productId = req.params.id;  
+      const userId = req.user.id;
+      const user = await userSchema.findById(userId);
+      if(!user){
+        return res.json({success:false,message:'user does not existes'})
       }
       const index = user.likedProducts.findIndex((id) => id == userId);
+      
       if (index == -1) {
-        user.likedProducts.push(userId);
+        user.likedProducts.push(productId)
       } else {
-        user.likedProducts.filter((e)=>e == userId)
+        user.likedProducts.filter((e)=>e == productId)
       }
       await user.save();
       res.status(200).json({ success: true ,message:'product saved'});
     } catch (err) {
-      ErrorHandler(err, 400, res);
+      res.json({ success: false ,message:err});
     }
+  };
+  const addWishList = async (req,res) => {
+    try {
+        const productId = req.params.id;  
+        const userId = req.user.id;
+        const user = await userSchema.findById(userId);
+        if(!user){
+          return res.json({success:false,message:'user does not existes'})
+        }
+        const index = user.likedProducts.findIndex((id) => id == userId);
+        
+        if (index == -1) {
+          user.wishList.push(productId)
+        } else {
+          user.wishList.filter((e)=>e == productId)
+        }
+        await user.save();
+        res.status(200).json({ success: true ,message:'product saved'});
+      } catch (err) {
+        res.json({ success: false ,message:err});
+      }
   };
 
     
@@ -206,5 +192,6 @@ module.exports = {
     deleteUser,
     getAllusers,
     getOneUser,
-    likeProduct    
+    likeProduct,
+    addWishList    
 }
