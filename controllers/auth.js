@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt');
 const token = require('../utils/jwt');
-const clientSchema = require('../models/client')
-const userSchema = require('../models/User')
-const Product = require('../models/product')
+const clientSchema = require('../models/client');
+const userSchema = require('../models/User');
+const Product = require('../models/product');
 
 
 
@@ -21,7 +21,7 @@ const login = async(req,res)=>{
         if(!isPasswordMatch){
             return res.json({success:false,message:"password is wrong"});
         }
-        const tkn = token.createToken(email);
+        const tkn =await token.createToken({id:client._id,email:client.email,role:client.role});
         res.cookie("token",tkn)
         res.json({success:true,message:"client logged in successfully"});
     }catch(e){
@@ -51,7 +51,7 @@ const signUp = async (req, res) => {
         image,
         password: hashedPassword,
       });
-      const tkn = token.createToken(email);
+      const tkn = token.createToken({id:user._id,email,role:user.role});
       res.cookie("token",tkn)
       return res.json({ success: true, user, token });
     } catch (err) {
@@ -71,56 +71,46 @@ const updateUser = async (req,res) =>{
             dateOfBirth,avatar,email,
             phoneNumber,password
         }= req.body;
+        let id =req.params.id;
 
-
-            let id =req.params.id;
-
-
-            if(!(id && (firstName || lastName || gender ||
-            dateOfBirth || avatar || email || 
-            phoneNumber || password )))
-            {
-                res.json ({success:false,message:"data is missing"});    
-            }else{
-                if(password){
-                    password = await bcrypt.hash(password, 10);
+        if(password){
+            password = await bcrypt.hash(password, 10);
+        }
+        if(dateOfBirth){
+            let dob = new Date(dateOfBirth);
+            let dd =new Date (Date.now());
+            let age = dd.getFullYear() - dob.getFullYear();
+            await userSchema.updateOne({ _id: id }, { $set: 
+                {
+                    firstName,
+                    lastName,
+                    gender,
+                    dateOfBirth,
+                    avatar,
+                    email,
+                    phoneNumber,
+                    password,
+                    age
                 }
-                if(dateOfBirth){
-                    let dob = new Date(dateOfBirth);
-                    let dd =new Date (Date.now());
-                    let age = dd.getFullYear() - dob.getFullYear();
-                    await userSchema.updateOne({ _id: id }, { $set: 
-                        {
-                            firstName,
-                            lastName,
-                            gender,
-                            dateOfBirth,
-                            avatar,
-                            email,
-                            phoneNumber,
-                            password,
-                          
-                            age
-                        }
-                    });
-                }else{
+            });
+        }else{
 
-                    await userSchema.updateOne({ _id: id }, { $set: 
-                        {
-                            firstName,
-                            lastName,
-                            gender,
-                            dateOfBirth,
-                            avatar,
-                            email,
-                            phoneNumber,
-                            password,
-                        }
-                    });
+            await userSchema.updateOne({ _id: id }, { $set: 
+                {
+                    firstName,
+                    lastName,
+                    gender,
+                    dateOfBirth,
+                    avatar,
+                    email,
+                    phoneNumber,
+                    password,
                 }
+            });
+        }
 
-                res.json ({success:true});
-            }
+        res.json ({success:true});
+        
 
         }catch(err){
             res.json ({success:false , error : err});
@@ -168,18 +158,37 @@ const deleteUser = async (req,res) =>{
 ///// added controllers
 const likeProduct = async (req,res) => {
     try {
-      const userId = req.userId;
-      const product = await Product.findById(req.params.id);
+      const user = req.user;
+      const product = await userSchema.findById(req.params.id);
       if (!product) {
         throw new Error("the product does not exist");
       }
-      const index = product.likedProducts.findIndex((id) => id == userId);
+      const index = user.likedProducts.findIndex((id) => id == user.id);
       if (index == -1) {
-        product.likedProducts.push(userId);
+        user.likedProducts.push(user._id);
       } else {
-        product.likedProducts.filter((e)=>e == userId)
+        user.likedProducts.filter((e)=>e == user.id)
       }
-      await product.save();
+      await user.save();
+      res.status(200).json({ success: true ,message:'product saved'});
+    } catch (err) {
+      ErrorHandler(err, 400, res);
+    }
+  };
+  const reviewProduct = async (req,res) => {
+    try {
+      const userId = req.userId;
+      const user = await userSchema.findById(req.params.id);
+      if (!product) {
+        throw new Error("the product does not exist");
+      }
+      const index = user.likedProducts.findIndex((id) => id == userId);
+      if (index == -1) {
+        user.likedProducts.push(userId);
+      } else {
+        user.likedProducts.filter((e)=>e == userId)
+      }
+      await user.save();
       res.status(200).json({ success: true ,message:'product saved'});
     } catch (err) {
       ErrorHandler(err, 400, res);
@@ -187,9 +196,15 @@ const likeProduct = async (req,res) => {
   };
 
     
+    
 
 
 module.exports = {
     login,
-    signUp    
+    signUp,
+    updateUser,
+    deleteUser,
+    getAllusers,
+    getOneUser,
+    likeProduct    
 }

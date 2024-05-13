@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+const jwt = require('jsonwebtoken');
 
 const isAuthentificated = async (req,res,next) =>{
     try{
@@ -7,7 +7,7 @@ const isAuthentificated = async (req,res,next) =>{
         if(token){
             decodedData = jwt.verify(token,process.env.JWT_SECRET);
             if(decodedData.exp*1000 > Date.now()){
-                req.userId = decodedData.id ;
+                req.user = decodedData.payload ;
                 next();
             }else{
                 res.clearCookie("token");
