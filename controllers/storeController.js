@@ -28,7 +28,7 @@ const addStore = async (req,res) =>{
             logo
         }= req.body;
       
-        if(!(name && logo && seller)){
+        if(!(name && seller)){
                 res.json ({success:false,message:"data is missing"});    
             }else{
                 let create =await new store ({name,logo,seller});

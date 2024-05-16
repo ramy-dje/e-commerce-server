@@ -19,16 +19,16 @@ router.post("/create",sellerCont.createSeller);
 
 // ########## GET 
 // you have to admin id in params
-router.get("/get/all",sellerCont.getAllSellers);
-router.get("/get/:id" , sellerCont.getOneSeller);
-router.get("/get/all/pro" , sellerCont.getProfestionalSellers)
+router.get("/",sellerCont.getAllSellers);
+router.get("/:id" , sellerCont.getOneSeller);
+
 
 // ########## UPDATE
-router.put('/update/:id' , sellerCont.updateSeller);
-router.put('/update/accept/:id' , sellerCont.acceptSeller);
-router.put('/update/pro/:id' , sellerCont.setProfestionalSeller);
+
+router.put('/accept/:id' , sellerCont.acceptSeller);
+
 // ######### DELETE
 // you have to send the id of Survey in params
-router.delete("/delete/:id", sellerCont.deleteSeller);
+router.delete("/:id", sellerCont.deleteSeller);
 
 module.exports=router;

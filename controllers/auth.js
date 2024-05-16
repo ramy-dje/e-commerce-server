@@ -84,6 +84,29 @@ const updateUser = async (req,res) =>{
             res.json ({success:false , error : err});
         }
 }
+const updateUserSecurity = async (req,res) =>{
+  try{
+      let {email,oldPassword,newPassword}= req.body;
+      const existingUser = await clientSchema.findOne({email});
+      const isEqual = await bcrypt.compare(oldPassword, existingUser.password);
+      if(!isEqual){
+        return res.json({success:false,message:'the old password is wrong'})
+      }
+      if(newPassword){
+        newPassword = await bcrypt.hash(newPassword, 10);
+      }
+      const user = await userSchema.findOneAndUpdate({ email }, { $set: 
+          {
+              email,
+              password:newPassword
+          }
+      },{new:true});
+      res.json ({success:true,message:'user security updated',user});
+      }catch(err){
+        console.log(err)
+          res.json ({success:false , error : err});
+      }
+}
 const updateUserImage = async(req,res)=>{
   try{
     let {image}= req.body;
@@ -174,7 +197,10 @@ const likeProduct = async (req,res) => {
   const getLikedProduct = async (req,res) => {
     try {  
       const userId = req.user.id;
-      const user = await userSchema.findById(userId);
+      const user = await userSchema.findById(userId).populate({
+        path:'likedProducts',
+        select: "_id name images price"
+      });
       if(!user){
         return res.json({success:false,message:'user does not existes'})
       }
@@ -194,7 +220,7 @@ const likeProduct = async (req,res) => {
         if(!user){
           return res.json({success:false,message:'user does not existes'})
         }
-        const index = user.likedProducts.findIndex((id) => id == userId);
+        const index = user.wishList.findIndex((id) => id == userId);
         
         if (index == -1) {
           user.wishList.push(productId)
@@ -210,7 +236,10 @@ const likeProduct = async (req,res) => {
   const getWishList = async (req,res) => {
     try {  
       const userId = req.user.id;
-      const user = await userSchema.findById(userId);
+      const user = await userSchema.findById(userId).populate({
+        path:'wishList',
+        select: "_id name images price"
+      });
       if(!user){
         return res.json({success:false,message:'user does not existes'})
       }
@@ -237,5 +266,6 @@ module.exports = {
     addWishList,
     getLikedProduct,
     getWishList,
-    updateUserImage
+    updateUserImage,
+    updateUserSecurity
 }

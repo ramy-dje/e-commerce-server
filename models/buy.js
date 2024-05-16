@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const buySchema = new Schema({
     client : {
         type: mongoose.SchemaTypes.ObjectId,
-        ref: "client",
+        ref: "user",
     },
     order : [
         {
@@ -18,12 +18,7 @@ const buySchema = new Schema({
             quantity : Number, 
         },
     ],
-    shippingSupplier: {
-        type: mongoose.SchemaTypes.ObjectId,
-        ref: "deliver",
-    },
     paymentMode : String,
     price : Number,
-    date : Date,
-});
+},{timestamps:true});
 module.exports = mongoose.model("buy", buySchema);

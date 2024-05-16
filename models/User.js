@@ -10,7 +10,7 @@ const userSchema = new Schema({
     phoneNumber:Number,
     password:String,
     likedProducts:[{
-        type:[mongoose.Types.ObjectId],
+        type:mongoose.Types.ObjectId,
         ref:'product'
     }],
     wishList:[{

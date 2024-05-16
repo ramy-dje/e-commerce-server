@@ -18,21 +18,26 @@ const addProduct = async (req,res) =>{
                 sizes,
                 quantity
             }= req.body;
-                images && images.forEach(async(image)=>{
-                    console.log(image)
-                    const myCloud = await cloudinary.v2.uploader.upload(image, {
-                        folder: "avatars2",
-                        width: 150,
-                    });
-                    const public_id = myCloud.public_id;
-                    const url = myCloud.url;
-                    image = {
-                        public_id,
-                        url
-                    }
-                    console.log(image)
-                })
-                    
+                if(images.length > 0){
+                    images =await Promise.all(images.map(async(image)=>{
+                        const myCloud = await cloudinary.v2.uploader.upload(image, {
+                            folder: "avatars2",
+                            width: 150,
+                        });
+                        const public_id = myCloud.public_id;
+                        const url = myCloud.url;
+                        image = {
+                            public_id,
+                            url
+                        }
+                        console.log({
+                            public_id,
+                            url
+                        })
+                        return image
+                    })
+                )
+                }
                 
     
             if(!(       
@@ -55,7 +60,7 @@ const addProduct = async (req,res) =>{
                     quantity
                 });
 
-                    await create.save();
+                    const s = await create.save();
                     res.json ({success:true});
                 }
             }catch(err){

@@ -32,6 +32,7 @@ const refund = require("./router/refundRouter");
 const auth = require("./router/auth");
 const product = require("./router/productRouter");
 const notification = require('./router/notifications');
+const seller = require('./router/sellerRouter');
 
 
 app.use("/store",store);
@@ -40,6 +41,7 @@ app.use("/refund",refund);
 app.use("/product",product);
 app.use("/",auth);
 app.use('/notification',notification);
+app.use('/seller',seller);
 
   
 mongoose.connect(process.env.database).then(

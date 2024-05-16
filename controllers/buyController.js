@@ -12,21 +12,14 @@ const addOrder = async (req,res) =>{
             let {
                client,
                order,
-               shippingSupplier,
                paymentMode,
                price,
-               estimatedDelivryTime,
-               date
             }= req.body;
           
             if(!(       
                client &&
                order &&
-               shippingSupplier &&
-               paymentMode &&
-               price &&
-               estimatedDelivryTime &&
-               date
+               price 
                 )){
                     res.json ({success:false,message:"data is missing"});    
                 }else{
@@ -34,11 +27,8 @@ const addOrder = async (req,res) =>{
                     let create =await new buy ({
                         client,
                         order,
-                        shippingSupplier,
                         paymentMode,
                         price,
-                        estimatedDelivryTime,
-                        date
                     });
 
                     await create.save();

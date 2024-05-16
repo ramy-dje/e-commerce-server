@@ -3,7 +3,7 @@ const Notification = require('../models/notifications');
 
 const getNotifcations = async(req,res)=>{
     try{
-        const {id}= req.params
+        const {id}= req.user
         const notifications = await Notification.find({destination:id});
         res.json({success:true,notifications})
     }catch(e){

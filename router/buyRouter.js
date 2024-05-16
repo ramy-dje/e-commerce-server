@@ -17,11 +17,11 @@ const router = express.Router();
 router.post("/create",buyCont.addOrder);
 
 // ########## GET 
-router.get("/get/client/:id" , buyCont.getClientPurchases);
-router.get("/get/store/:id",buyCont.getStorePurchases);
-router.get("/get/product/:id",buyCont.getProductPurchases);
-router.get("/get/shippingSupplier/:shippingSupplier",buyCont.getPurchasesByShippingSupplier);
-router.get("/get/paymentMode/:paymentMode",buyCont.getPurchasesByPaymentMode);
+router.get("/client/:id" , buyCont.getClientPurchases);
+router.get("/store/:id",buyCont.getStorePurchases);
+router.get("/product/:id",buyCont.getProductPurchases);
+router.get("/shippingSupplier/:shippingSupplier",buyCont.getPurchasesByShippingSupplier);
+router.get("/paymentMode/:paymentMode",buyCont.getPurchasesByPaymentMode);
 
 // ########## UPDATE
 //router.put('/update/accept/:id' , buyCont.acceptSpam);
