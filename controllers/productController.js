@@ -1,4 +1,7 @@
 const product =require('../models/product');
+const cloudinary = require('cloudinary');
+
+
 
 const addProduct = async (req,res) =>{
 
@@ -15,10 +18,26 @@ const addProduct = async (req,res) =>{
                 sizes,
                 quantity
             }= req.body;
-          
+                images && images.forEach(async(image)=>{
+                    console.log(image)
+                    const myCloud = await cloudinary.v2.uploader.upload(image, {
+                        folder: "avatars2",
+                        width: 150,
+                    });
+                    const public_id = myCloud.public_id;
+                    const url = myCloud.url;
+                    image = {
+                        public_id,
+                        url
+                    }
+                    console.log(image)
+                })
+                    
+                
+    
             if(!(       
             name &&
-            creatorName
+            creatorId
             )){
                 res.json ({success:false,message:"data is missing"});    
             }else{
@@ -40,6 +59,7 @@ const addProduct = async (req,res) =>{
                     res.json ({success:true});
                 }
             }catch(err){
+                console.log(err)
                 res.json ({success:false , error : err});
             }
 }
@@ -141,7 +161,7 @@ const deleteProduct = async (req,res) =>{
 ///// added
 const reviewProduct = async (req,res) => {
     try {
-      const userId = req.userId;
+      const userId = req.user.id;
       const {review,productId} = req.body;
       const Product = await product.findById(productId);
       if (!Product) {

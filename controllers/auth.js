@@ -3,7 +3,7 @@ const token = require('../utils/jwt');
 const clientSchema = require('../models/client');
 const userSchema = require('../models/User');
 const Product = require('../models/product');
-const {cloudinary} = require('../app')
+const cloudinary = require('cloudinary');
 
 const login = async(req,res)=>{
     try{
@@ -59,12 +59,13 @@ const signUp = async (req, res) => {
 const updateUser = async (req,res) =>{
   var public_id=''
   var url =''
+  
 
     try{
 
         let {
             firstName,lastName,gender,
-            dateOfBirth,avatar,email,
+            dateOfBirth,image,email,
             phoneNumber,password
         }= req.body;
         let id =req.params.id;
@@ -73,7 +74,7 @@ const updateUser = async (req,res) =>{
             password = await bcrypt.hash(password, 10);
         }
         if (image) {
-          const myCloud = await cloudinary.v2.uploader.upload(image.toString(), {
+          const myCloud = await cloudinary.v2.uploader.upload(image, {
             folder: "avatars",
             width: 150,
           });
@@ -87,13 +88,13 @@ const updateUser = async (req,res) =>{
                 lastName,
                 gender,
                 dateOfBirth,
-                avatar:{public_id,url},
+                image:{public_id,url},
                 email,
                 phoneNumber,
                 password,
             }
         });
-        res.json ({success:true});
+        res.json ({success:true,message:'fuckkkkkk'});
         }catch(err){
             res.json ({success:false , error : err});
         }
