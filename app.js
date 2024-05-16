@@ -31,13 +31,15 @@ const buy = require("./router/buyRouter");
 const refund = require("./router/refundRouter");
 const auth = require("./router/auth");
 const product = require("./router/productRouter");
+const notification = require('./router/notifications');
+
 
 app.use("/store",store);
 app.use("/buy",buy);
 app.use("/refund",refund);
 app.use("/product",product);
 app.use("/",auth);
-
+app.use('/notification',notification);
 
   
 mongoose.connect(process.env.database).then(
