@@ -57,15 +57,10 @@ const signUp = async (req, res) => {
 
 
 const updateUser = async (req,res) =>{
-  var public_id=''
-  var url =''
-  
-
     try{
-
         let {
             firstName,lastName,gender,
-            dateOfBirth,image,email,
+            dateOfBirth,email,
             phoneNumber,password
         }= req.body;
         let id =req.params.id;
@@ -73,22 +68,12 @@ const updateUser = async (req,res) =>{
         if(password){
             password = await bcrypt.hash(password, 10);
         }
-        if (image) {
-          const myCloud = await cloudinary.v2.uploader.upload(image, {
-            folder: "avatars",
-            width: 150,
-          });
-          public_id = myCloud.public_id;
-          url = myCloud.url;
-        }
-       
         const user = await userSchema.findOneAndUpdate({ _id: id }, { $set: 
             {
                 firstName,
                 lastName,
                 gender,
                 dateOfBirth,
-                image:{public_id,url},
                 email,
                 phoneNumber,
                 password,
@@ -98,6 +83,32 @@ const updateUser = async (req,res) =>{
         }catch(err){
             res.json ({success:false , error : err});
         }
+}
+const updateUserImage = async(req,res)=>{
+  try{
+    let {image}= req.body;
+    let id =req.params.id;
+    const userExists = await clientSchema.find({_id:id})
+    if (userExists.image?.public_id)
+      await cloudinary.v2.uploader.destroy(userExists.image.public_id);
+    if (image) {
+      const myCloud = await cloudinary.v2.uploader.upload(image, {
+        folder: "avatars",
+        width: 150,
+      });
+      public_id = myCloud.public_id;
+      url = myCloud.url;
+    }
+    const user = await userSchema.findOneAndUpdate({ _id: id }, { $set: 
+      {
+          image:{public_id,url},
+      }
+  },{new:true});
+  res.json ({success:true,message:'user image updated',user});
+  }catch(e){
+    console.log(e)
+    res.json({success:false,message:'image did not uploaed'})
+  }
 }
 
 const getAllusers= async (req,res)=>{
@@ -225,5 +236,6 @@ module.exports = {
     likeProduct,
     addWishList,
     getLikedProduct,
-    getWishList    
+    getWishList,
+    updateUserImage
 }

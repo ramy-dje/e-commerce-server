@@ -87,10 +87,10 @@ const getAllProducts = async (req,res)=>{
     }
 }
 
-const getAllProductsByCreatorName = async (req,res)=>{
+const getAllProductsByCreator = async (req,res)=>{
     try{
-        const {creatorName} = req.body ;
-        let result = await product.find({creatorName : creatorName});
+        const {creatorId} = req.body ;
+        let result = await product.find({creatorId });
         res.json(result);
     }catch(err){
         res.json ({success:false , error : err});
@@ -181,7 +181,7 @@ module.exports = {
     getAllProducts,
     getOneProduct,
     getAllProductsByCategory,
-    getAllProductsByCreatorName,
+    getAllProductsByCreator,
     updateProduct,
     deleteProduct,
     reviewProduct

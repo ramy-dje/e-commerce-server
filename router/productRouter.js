@@ -19,7 +19,7 @@ router.post("/create",productCont.addProduct);
 // you have to admin id in params
 router.get("/get/:id" , productCont.getOneProduct);
 router.get("/get/all",productCont.getAllProducts);
-router.post("/get/all/creator" , productCont.getAllProductsByCreatorName);
+router.post("/get/all/creator" , productCont.getAllProductsByCreator);
 router.post("/get/all/category" ,productCont.getAllProductsByCategory);
 
 
