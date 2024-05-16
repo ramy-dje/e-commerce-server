@@ -1,4 +1,4 @@
-const {signUp,login,deleteUser,getAllusers,getOneUser,likeProduct,updateUser,addWishList} = require('../controllers/auth');
+const {signUp,login,deleteUser,getAllusers,getOneUser,likeProduct,updateUser,addWishList,getLikedProduct,getWishList} = require('../controllers/auth');
 const {authorizedRoles,isAuthentificated} = require('../middlewares/auth');
 const express = require('express');
 const router = express.Router();
@@ -24,6 +24,7 @@ router.delete("/user/:id", deleteUser);
 router.put("/user/:id", updateUser);
 router.put("/likeProduct/:id",isAuthentificated,likeProduct);
 router.put("/wishList/:id",isAuthentificated,addWishList);
-
+router.get("/likeProduct",isAuthentificated,getLikedProduct);
+router.get("/wishList",isAuthentificated,getWishList);
 
 module.exports=router;

@@ -20,9 +20,9 @@ const login = async(req,res)=>{
         if(!isPasswordMatch){
             return res.json({success:false,message:"password is wrong"});
         }
-        const tkn =await token.createToken({id:client._id,email:client.email,role:client.role});
+       const tkn =await token.createToken({id:client._id,email:client.email,role:client.role});
         res.cookie("token",tkn)
-        res.json({success:true,message:"client logged in successfully",user});
+        res.json({success:true,message:"client logged in successfully",user:client});
     }catch(e){
         res.status(404).json({success:false,message:e});
     }
@@ -82,7 +82,7 @@ const updateUser = async (req,res) =>{
           url = myCloud.url;
         }
        
-        await userSchema.updateOne({ _id: id }, { $set: 
+        const user = await userSchema.findOneAndUpdate({ _id: id }, { $set: 
             {
                 firstName,
                 lastName,
@@ -93,8 +93,8 @@ const updateUser = async (req,res) =>{
                 phoneNumber,
                 password,
             }
-        });
-        res.json ({success:true,message:'fuckkkkkk'});
+        },{new:true});
+        res.json ({success:true,message:'user updated',user});
         }catch(err){
             res.json ({success:false , error : err});
         }
@@ -160,6 +160,21 @@ const likeProduct = async (req,res) => {
       res.json({ success: false ,message:err});
     }
   };
+  const getLikedProduct = async (req,res) => {
+    try {  
+      const userId = req.user.id;
+      const user = await userSchema.findById(userId);
+      if(!user){
+        return res.json({success:false,message:'user does not existes'})
+      }
+      await user.save();
+      const {likedProducts} = user
+      res.status(200).json({ success: true ,likedProducts});
+    } catch (err) {
+      res.json({ success: false ,message:err});
+    }
+  };
+
   const addWishList = async (req,res) => {
     try {
         const productId = req.params.id;  
@@ -181,6 +196,20 @@ const likeProduct = async (req,res) => {
         res.json({ success: false ,message:err});
       }
   };
+  const getWishList = async (req,res) => {
+    try {  
+      const userId = req.user.id;
+      const user = await userSchema.findById(userId);
+      if(!user){
+        return res.json({success:false,message:'user does not existes'})
+      }
+      await user.save();
+      const {wishList} = user
+      res.status(200).json({ success: true ,wishList});
+    } catch (err) {
+      res.json({ success: false ,message:err});
+    }
+  };
 
     
     
@@ -194,5 +223,7 @@ module.exports = {
     getAllusers,
     getOneUser,
     likeProduct,
-    addWishList    
+    addWishList,
+    getLikedProduct,
+    getWishList    
 }
