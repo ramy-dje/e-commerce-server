@@ -18,11 +18,11 @@ router.post("/create",isAuthentificated,productCont.addProduct);
 
 // ########## GET 
 // you have to admin id in params
-router.get("/get/:id" , productCont.getOneProduct);
-router.get("/get/all",productCont.getAllProducts);
-router.post("/get/all/creator" , productCont.getAllProductsByCreator);
-router.post("/get/all/category" ,productCont.getAllProductsByCategory);
-
+router.get("/:id" , productCont.getOneProduct);
+router.get("/",productCont.getAllProducts);
+router.post("/creator" , productCont.getAllProductsByCreator);
+router.post("/category" ,productCont.getAllProductsByCategory);
+router.put('/review' ,isAuthentificated,productCont.reviewProduct);
 
 // ########## UPDATE
 router.put('/update/:id' , productCont.updateProduct);

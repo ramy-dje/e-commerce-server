@@ -1,6 +1,7 @@
 const product =require('../models/product');
 const {addProductIntoStore} = require('./storeController');
 const cloudinary = require('cloudinary');
+const {sendNotification} = require('./notificationController')
 
 
 
@@ -62,7 +63,13 @@ const addProduct = async (req,res) =>{
                 });
 
                     const s = await create.save();
-                    await addProductIntoStore(create._id,creatorId);
+                    const store = await addProductIntoStore(create._id,creatorId);
+                    console.log(store)
+                    await Promise.all(
+                        store.folowers.map(async(e)=>{
+                            await sendNotification(e,'new product from '+store.name+' is added go check it',creatorId)
+                        })
+                    )
                     res.json ({success:true});
                 }
             }catch(err){
