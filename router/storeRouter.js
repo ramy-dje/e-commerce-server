@@ -1,6 +1,7 @@
 const storeCont= require("../controllers/storeController");
 const express = require('express');
 const router = express.Router();
+const {isAuthentificated} = require('../middlewares/auth')
 
 /**
  * store :
@@ -25,13 +26,16 @@ router.get("/get/:id" , storeCont.getOneStore);
 
 // ########## UPDATE
 router.put('/update/:id' , storeCont.updateStore);
-router.put('/update/add/product/:id' , storeCont.addProductIntoStore);
 router.put("/update/add/visitors/:id" , storeCont.addVisitorsIntoStore);
 router.put("/update/add/paymentWay/:id" , storeCont.setPaymentWay);
-router.put("/update/add/folows/:id" , storeCont.addFolowsIntoStore);
+router.put("/folow/:id" ,isAuthentificated,storeCont.addFolowsIntoStore);
+router.put("/logo/:id" ,storeCont.updateStoreLogo);
+router.put("/bgImage/:id" ,storeCont.updateStoreBckgoundImage);
 
 // ######### DELETE
 router.delete("/delete/:id", storeCont.deleteStore);
 router.delete("/delete/product/:id", storeCont.deleteProductFromStore);
+
+router.get("/folowers/:id", storeCont.getFolowers);
 
 module.exports=router;

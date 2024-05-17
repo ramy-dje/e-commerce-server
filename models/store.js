@@ -18,7 +18,8 @@ const storeSchema = new Schema({
         ref: "user",
     }],
     name : String,
-    logo : String,
+    logo : Object,
+    backgroundImage:Object,
     allowedPaymentTypes : [String]
 });
 module.exports = mongoose.model("store", storeSchema);

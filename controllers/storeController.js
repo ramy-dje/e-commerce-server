@@ -1,4 +1,6 @@
 const store =require('../models/store');
+const cloudinary = require('cloudinary');
+
 
 const getAllStores = async (req,res)=>{
     try{
@@ -42,8 +44,9 @@ try{
         {
             console.log('data missing');  
         }else{
-                await store.updateOne({ seller: id }, { $push: { products:product}});
+                const theStore = await store.findOneAndUpdate({ seller: id }, { $push: { products:product}},{new:true});
                 console.log('added to store')
+                return theStore
         }
     }catch(err){
         console.log('not added');
@@ -94,18 +97,32 @@ const addVisitorsIntoStore = async (req,res) =>{
 const addFolowsIntoStore = async (req,res) =>{
     try{
     
-        let {folow}= req.body;
-            let id =req.params.id;
-            if(!(id && folow))
-            {
-                res.json ({success:false,message:"data is missing"});    
-            }else{
-                    await store.updateOne({ _id: id }, { $push: { folows:folow}});
-                res.json ({success:true});
-            }
-        }catch(err){
-            res.json ({success:false , error : err});
+        let folow= req.user.id;
+        let id =req.params.id;
+        if(!(id && folow))
+        {
+            res.json ({success:false,message:"data is missing"});    
+        }else{
+            const s = await store.updateOne({ _id: id }, { $push: { folowers:folow}});
+            res.json ({success:true});
         }
+    }catch(err){
+        console.log(err)
+        res.json ({success:false , error : err});
+    }
+}
+const getFolowers = async (req,res) =>{
+    try{
+        let id =req.params.id;
+        const folowers = await store.find({_id:id}).populate({
+            path:"folowers",
+            select:"firstName lastName image"
+        });
+        res.json ({success:true,folowers});
+    }catch(err){
+        console.log(err)
+        res.json ({success:false , error : err});
+    }
 }
 
 const setPaymentWay = async (req,res) =>{
@@ -156,6 +173,62 @@ const deleteStore = async (req,res) =>{
         res.json ({success:false , error : err});
     }
 }
+
+const updateStoreLogo = async(req,res)=>{
+    try{
+      let {logo}= req.body;
+      let id =req.params.id;
+      const storeExists = await store.find({_id:id})
+      if (storeExists.logo?.public_id)
+        await cloudinary.v2.uploader.destroy(storeExists.logo.public_id);
+      if (logo) {
+        const myCloud = await cloudinary.v2.uploader.upload(logo, {
+          folder: "avatars",
+          width: 150,
+        });
+        public_id = myCloud.public_id;
+        url = myCloud.url;
+      }
+       await store.findOneAndUpdate({ _id: id }, { $set: 
+        {
+            logo:{public_id,url},
+        }
+    },{new:true});
+    res.json ({success:true,message:'user image updated'});
+    }catch(e){
+      console.log(e)
+      res.json({success:false,message:'image did not uploaed'})
+    }
+}
+
+const updateStoreBckgoundImage = async(req,res)=>{
+    try{
+      let {bgImage}= req.body;
+      let id =req.params.id;
+      const storeExists = await store.find({_id:id})
+      if (storeExists.bgImage?.public_id)
+        await cloudinary.v2.uploader.destroy(storeExists.bgImage.public_id);
+      if (bgImage) {
+        const myCloud = await cloudinary.v2.uploader.upload(bgImage, {
+          folder: "avatars",
+          width: 150,
+        });
+        public_id = myCloud.public_id;
+        url = myCloud.url;
+      }
+       await store.findOneAndUpdate({ _id: id }, { $set: 
+        {
+            backgroundImage:{public_id,url},
+        }
+    },{new:true});
+    res.json ({success:true,message:'user image updated'});
+    }catch(e){
+      console.log(e)
+      res.json({success:false,message:'image did not uploaed'})
+    }
+}
+
+
 module.exports = {
     addStore,
     addProductIntoStore,
@@ -166,5 +239,9 @@ module.exports = {
     updateStore,
     getAllStores,
     getOneStore,
-    deleteStore
+    deleteStore,
+    getFolowers,
+    updateStoreLogo,
+    updateStoreBckgoundImage
+
 }
