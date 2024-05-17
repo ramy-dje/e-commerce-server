@@ -5,7 +5,11 @@ const notificationSchema = new Schema({
         type: mongoose.SchemaTypes.ObjectId,
         ref: "user",
     },
-    content:String
+    content:String,
+    sender : {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: "user",
+    },
 },{
     timestamps:true
 });

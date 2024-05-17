@@ -13,16 +13,25 @@ const getNotifcations = async(req,res)=>{
 }
 const createNotifications = async(req,res)=>{
     try{
-        const {destination,content} = req.body;
-        await Notification.create({destination,content});
+        const {destination,content,sender} = req.body;
+        await Notification.create({destination,content,sender});
         res.json({success:true,message:'notification created'});
     }catch(e){
         console.log(e);
         res.json({success:false,message:e})
     }
 }
+const sendNotification = async(destination,content,sender)=>{
+    try{
+        await Notification.create({destination,content,sender});
+        console.log('notification sended')
+    }catch(e){
+        console.log(e);
 
+    }
+}
 module.exports = {
     getNotifcations,
-    createNotifications
+    createNotifications,
+    sendNotification
 }
