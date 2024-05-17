@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const isAuthentificated = async (req,res,next) =>{
     try{
+        //const token = req.headers.token;
         const token = req.cookies.token;
         let decodedData ;
         if(token){
