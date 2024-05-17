@@ -1,6 +1,7 @@
 const productCont= require("../controllers/productController");
 const express = require('express');
 const router = express.Router();
+const {authorizedRoles,isAuthentificated} = require('../middlewares/auth')
 
 /**
  * product :
@@ -13,7 +14,7 @@ const router = express.Router();
  */
 
 // ########### CREATE
-router.post("/create",productCont.addProduct);
+router.post("/create",isAuthentificated,productCont.addProduct);
 
 // ########## GET 
 // you have to admin id in params

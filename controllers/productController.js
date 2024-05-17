@@ -1,14 +1,15 @@
 const product =require('../models/product');
+const {addProductIntoStore} = require('./storeController');
 const cloudinary = require('cloudinary');
 
 
 
 const addProduct = async (req,res) =>{
+        const creatorId = req.user.id;
 
         try{
             let {
                 name,
-                creatorId,
                 category,
                 price,
                 colors,
@@ -61,6 +62,7 @@ const addProduct = async (req,res) =>{
                 });
 
                     const s = await create.save();
+                    await addProductIntoStore(create._id,creatorId);
                     res.json ({success:true});
                 }
             }catch(err){
