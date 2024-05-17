@@ -1,16 +1,10 @@
 const buy = require('../models/buy');
 
 const addOrder = async (req,res) =>{
-/**
- * order = [{
- * store,
- * product,
- * quantity
- * }]
- */
+        const client = req.user.id
         try{
             let {
-               client,
+               
                order,
                paymentMode,
                price,

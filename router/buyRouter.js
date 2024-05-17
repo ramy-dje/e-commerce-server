@@ -1,6 +1,7 @@
 const buyCont= require("../controllers/buyController");
 const express = require('express');
 const router = express.Router();
+const {isAuthentificated} = require('../middlewares/auth')
 
 /**
  * buy :
@@ -14,7 +15,7 @@ const router = express.Router();
  */
 
 // ########### CREATE
-router.post("/create",buyCont.addOrder);
+router.post("/create",isAuthentificated,buyCont.addOrder);
 
 // ########## GET 
 router.get("/client/:id" , buyCont.getClientPurchases);
