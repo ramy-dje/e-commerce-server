@@ -19,42 +19,35 @@ const getOneStore = async (req,res)=>{
     }
 }
 
-const addStore = async (req,res) =>{
+const addStore = async (name,seller,logo) =>{
 
     try{
-        let {
-            name,
-            seller,
-            logo
-        }= req.body;
-      
-        if(!(name && seller)){
-                res.json ({success:false,message:"data is missing"});    
-            }else{
-                let create =await new store ({name,logo,seller});
-                await create.save();
-                res.json ({success:true});
-            }
-        }catch(err){
-            res.json ({success:false , error : err});
+        
+        if(!(seller)){
+                console.log('error')   
+        }else{
+            let create =await new store ({name,logo,seller});
+            await create.save();
+            console.log('store created') 
         }
+    }catch(err){
+        console.log('error') 
+    }
 }
 
 // you have put in body only one product
-const addProductIntoStore = async (req,res) =>{
+const addProductIntoStore = async (product,id) =>{
 try{
-
-    let {product}= req.body;
-        let id =req.params.id;
         if(!(id && product))
         {
-            res.json ({success:false,message:"data is missing"});    
+            console.log('data missing');  
         }else{
-                await store.updateOne({ _id: id }, { $push: { products:product}});
-            res.json ({success:true});
+                await store.updateOne({ seller: id }, { $push: { products:product}});
+                console.log('added to store')
         }
     }catch(err){
-        res.json ({success:false , error : err});
+        console.log('not added');
+        console.log(err);
     }
 }
 

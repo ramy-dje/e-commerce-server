@@ -1,6 +1,7 @@
 const seller = require('../models/seller');
 const user = require('../models/User');
 const bcrypt = require('bcrypt');
+const {addStore} = require('./storeController');
 
 // we use bcrypt to hashing password at secuer way
 const createSeller = async (req,res) =>{
@@ -14,6 +15,7 @@ const createSeller = async (req,res) =>{
                     userId,
                     registerCommerce,
                 });
+                await addStore('',userId,null)
                 await user.findOneAndUpdate({_id:userId},{ $set: 
                     {
                         role:"seller",
