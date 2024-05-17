@@ -14,6 +14,10 @@ const productSchema = new Schema({
     reviews : [Object],
     description :String,
     sizes : [String],
-    quantity: Number
+    quantity: Number,
+    store : {
+        type : mongoose.Types.ObjectId,
+        ref:'store'
+    },
 });
 module.exports = mongoose.model("product", productSchema);

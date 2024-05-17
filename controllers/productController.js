@@ -7,7 +7,6 @@ const {sendNotification} = require('./notificationController')
 
 const addProduct = async (req,res) =>{
         const creatorId = req.user.id;
-
         try{
             let {
                 name,
@@ -18,7 +17,8 @@ const addProduct = async (req,res) =>{
                 images,
                 description,
                 sizes,
-                quantity
+                quantity,
+                store
             }= req.body;
                 if(images.length > 0){
                     images =await Promise.all(images.map(async(image)=>{
@@ -59,15 +59,16 @@ const addProduct = async (req,res) =>{
                     images,
                     description,
                     sizes,
-                    quantity
+                    quantity,
+                    store
                 });
 
                     const s = await create.save();
-                    const store = await addProductIntoStore(create._id,creatorId);
-                    console.log(store)
+                    const theStore = await addProductIntoStore(create._id,creatorId);
+                    console.log(theStore)
                     await Promise.all(
-                        store.folowers.map(async(e)=>{
-                            await sendNotification(e,'new product from '+store.name+' is added go check it',creatorId)
+                        theStore.folowers.map(async(e)=>{
+                            await sendNotification(e,'new product from '+theStore.name+' is added go check it',creatorId)
                         })
                     )
                     res.json ({success:true});
