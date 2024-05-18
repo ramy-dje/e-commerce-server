@@ -190,6 +190,28 @@ const reviewProduct = async (req,res) => {
     }
   };
 
+const handleDiscount = async (req,res) =>{
+    try{
+        let {id} = req.params;
+        const {discount} = req.body
+        if(discount > 70){
+            return res.json({success:false,message:"discount must be less than 70%"})
+        }
+        if(id){
+            await product.findByIdAndUpdate(id,{
+                $set:{
+                    discount : discount
+                }
+            });
+            res.json ({success:true,message:"discount changed to "+discount+"%"});
+        }else{
+            res.json ({success:false,message:"data is missing"});    
+        }
+    }catch(err){
+        res.json ({success:false , error : err});
+    }
+}
+
 
 module.exports = {
     addProduct,
@@ -199,5 +221,6 @@ module.exports = {
     getAllProductsByCreator,
     updateProduct,
     deleteProduct,
-    reviewProduct
+    reviewProduct,
+    handleDiscount
 }

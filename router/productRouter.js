@@ -23,7 +23,7 @@ router.get("/",productCont.getAllProducts);
 router.post("/creator" , productCont.getAllProductsByCreator);
 router.post("/category" ,productCont.getAllProductsByCategory);
 router.put('/review' ,isAuthentificated,productCont.reviewProduct);
-
+router.put('/discount/:id' ,productCont.handleDiscount);
 // ########## UPDATE
 router.put('/update/:id' , productCont.updateProduct);
 
