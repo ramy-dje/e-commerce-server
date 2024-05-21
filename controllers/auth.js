@@ -99,7 +99,6 @@ const updateUser = async (req,res) =>{
                             email,
                             phoneNumber,
                             password,
-                          
                             age
                         }
                     });
