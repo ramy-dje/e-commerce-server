@@ -24,7 +24,7 @@ const addOrder = async (req,res) =>{
                         paymentMode,
                         price,
                     });
-
+                    
                     await create.save();
                     res.json ({success:true});
                 }
@@ -67,7 +67,13 @@ const getStorePurchases= async (req,res)=>{
    try{
    let id = req.params.id;
    if(id){
-       let result = await buy.find({order:{$elemMatch:{store :id}}});
+       let result = await buy.find({order:{$elemMatch:{store :id}}}).populate({
+        path:'order.product',
+        select:'name images'
+       }).populate({
+        path:'client',
+        select:'firstName lastName image'
+       });
        res.json(result);
    }else{
        res.json ({success:false,message:"data is missing"});    

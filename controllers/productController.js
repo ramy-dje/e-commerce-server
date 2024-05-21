@@ -1,4 +1,5 @@
 const product =require('../models/product');
+const user =require('../models/User');
 const {addProductIntoStore} = require('./storeController');
 const cloudinary = require('cloudinary');
 const {sendNotification} = require('./notificationController')
@@ -6,7 +7,6 @@ const {sendNotification} = require('./notificationController')
 
 
 const addProduct = async (req,res) =>{
-        const creatorId = req.user.id;
         try{
             let {
                 name,
@@ -22,36 +22,38 @@ const addProduct = async (req,res) =>{
             }= req.body;
                 if(images.length > 0){
                     images =await Promise.all(images.map(async(image)=>{
-                        const myCloud = await cloudinary.v2.uploader.upload(image, {
-                            folder: "avatars2",
-                            width: 150,
-                        });
-                        const public_id = myCloud.public_id;
-                        const url = myCloud.url;
-                        image = {
-                            public_id,
-                            url
+                        console.log(image)
+                        if(image ){
+                            const myCloud = await cloudinary.v2.uploader.upload(image, {
+                                folder: "avatars2",
+                                width: 150,
+                            });
+                            const public_id = myCloud.public_id;
+                            const url = myCloud.url;
+                            image = {
+                                public_id,
+                                url
+                            }
+                            console.log({
+                                public_id,
+                                url
+                            })
+                            return image
                         }
-                        console.log({
-                            public_id,
-                            url
-                        })
-                        return image
+                        
                     })
                 )
                 }
                 
-    
+                console.log(images)
             if(!(       
-            name &&
-            creatorId
+            name 
             )){
                 res.json ({success:false,message:"data is missing"});    
             }else{
 
                 let create = new product ({
                     name,
-                    creatorId,
                     category,
                     price,
                     colors,
@@ -62,15 +64,16 @@ const addProduct = async (req,res) =>{
                     quantity,
                     store
                 });
+                
 
-                    const s = await create.save();
+                  /*  const s = await create.save();
                     const theStore = await addProductIntoStore(create._id,creatorId);
                     console.log(theStore)
                     await Promise.all(
                         theStore.folowers.map(async(e)=>{
                             await sendNotification(e,'new product from '+theStore.name+' is added go check it',creatorId)
                         })
-                    )
+                    )*/
                     res.json ({success:true});
                 }
             }catch(err){
@@ -101,6 +104,56 @@ const getAllProducts = async (req,res)=>{
         res.json ({success:false , error : err});
     }
 }
+const getLatestProducts = async (req,res)=>{
+    console.log('hihi')
+    try{
+       let result = await product.find().sort({ createdAt: 1 });
+        res.json({result});
+    }catch(err){
+        console.log(err)
+        res.json ({success:false , errorrrr : err});
+    }
+}
+async function getProductsSortedByLikedProducts(req,res) {
+    try {
+      const products = await user.aggregate([
+        // Add a field for the length of the likedProducts array
+        {
+          $addFields: {
+            likedProductsCount: { $size: "$likedProducts" }
+          }
+        },
+        // Sort by the newly added field
+        {
+          $sort: { likedProductsCount: -1 } // Change to 1 for ascending order
+        },
+        // Optionally, project to remove the added field
+        {
+          $project: {
+            likedProductsCount: 0
+          }
+        }
+      ]);
+  
+      res.json(products );
+    } catch (err) {
+      console.error('Error retrieving and sorting products:', err);
+      throw err;
+    }
+}
+const getProductsInDiscount = async (req,res)=>{
+    console.log('hihi')
+    try{
+       let result = await product.find({discount:{$gt:0}})
+        res.json({result});
+    }catch(err){
+        console.log(err)
+        res.json ({success:false , errorrrr : err});
+    }
+} 
+  // Example usage
+ 
+  
 
 const getAllProductsByCreator = async (req,res)=>{
     try{
@@ -128,7 +181,6 @@ const updateProduct = async (req,res) =>{
 
         let {
             name,
-            creatorId,
             category,
             price,
             colors,
@@ -139,10 +191,34 @@ const updateProduct = async (req,res) =>{
             quantity
         }= req.body;
         let id =req.params.id;
+        if(images.length > 0){
+            images =await Promise.all(images.map(async(image)=>{
+                console.log(image)
+                if(image ){
+                    const myCloud = await cloudinary.v2.uploader.upload(image, {
+                        folder: "avatars2",
+                        width: 150,
+                    });
+                    const public_id = myCloud.public_id;
+                    const url = myCloud.url;
+                    image = {
+                        public_id,
+                        url
+                    }
+                    console.log({
+                        public_id,
+                        url
+                    })
+                    return image
+                }
+                
+            })
+        )
+        }
+        
         await product.updateOne({ _id: id }, { $set: 
             {
                 name,
-                creatorId,
                 category,
                 price,
                 colors,
@@ -222,5 +298,9 @@ module.exports = {
     updateProduct,
     deleteProduct,
     reviewProduct,
-    handleDiscount
+    handleDiscount,
+    getProductsSortedByLikedProducts,
+    getLatestProducts,
+    getProductsInDiscount
+
 }

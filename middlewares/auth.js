@@ -2,13 +2,14 @@ const jwt = require('jsonwebtoken');
 
 const isAuthentificated = async (req,res,next) =>{
     try{
-        //const token = req.headers.token;
-        const token = req.cookies.token;
+        let token = req.headers.authorization;
+        //const token = req.cookies.token;
         let decodedData ;
         if(token){
             decodedData = jwt.verify(token,process.env.JWT_SECRET);
             if(decodedData.exp*1000 > Date.now()){
                 req.user = decodedData.payload ;
+                console.log(decodedData.payload)
                 next();
             }else{
                 res.clearCookie("token");

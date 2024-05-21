@@ -1,5 +1,6 @@
 const store =require('../models/store');
 const cloudinary = require('cloudinary');
+const mongoose = require('mongoose')
 
 
 const getAllStores = async (req,res)=>{
@@ -13,14 +14,29 @@ const getAllStores = async (req,res)=>{
 
 const getOneStore = async (req,res)=>{
     try{
+     
         let id =req.params.id;
-        let result = await store.findById(id);
+        let result = await store.findById(id).populate({
+            path:"products",
+            select:"name price discount images"
+        });
+        console.log(result)
         res.json(result);
     }catch(err){
         res.json ({success:false , error : err});
     }
 }
-
+const getStoreByCreator = async (req,res)=>{
+    try{
+   
+        let id =req.params.id;
+        let result = await store.findOne({creatorId:new mongoose.Types.ObjectId(id)})
+        console.log(result._id)
+        res.json(result);
+    }catch(err){
+        res.json ({success:false , error : err});
+    }
+}
 const addStore = async (name,seller,logo) =>{
 
     try{
@@ -114,9 +130,23 @@ const addFolowsIntoStore = async (req,res) =>{
 const getFolowers = async (req,res) =>{
     try{
         let id =req.params.id;
-        const folowers = await store.find({_id:id}).populate({
+        const data = await store.findOne({_id:id}).populate({
             path:"folowers",
-            select:"firstName lastName image"
+            select:"firstName lastName image dateOfBirth"
+        });
+        const {folowers} =data
+        res.json ({success:true,folowers});
+    }catch(err){
+        console.log(err)
+        res.json ({success:false , error : err});
+    }
+}
+const getProducts = async (req,res) =>{
+    try{
+        let id =req.params.id;
+        const folowers = await store.find({_id:id}).populate({
+            path:"products",
+            select:"name price discount images"
         });
         res.json ({success:true,folowers});
     }catch(err){
@@ -242,6 +272,8 @@ module.exports = {
     deleteStore,
     getFolowers,
     updateStoreLogo,
-    updateStoreBckgoundImage
+    updateStoreBckgoundImage,
+    getProducts,
+    getStoreByCreator
 
 }

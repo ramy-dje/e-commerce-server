@@ -33,7 +33,7 @@ const auth = require("./router/auth");
 const product = require("./router/productRouter");
 const notification = require('./router/notifications');
 const seller = require('./router/sellerRouter');
-
+const analytics = require('./router/analytics');
 
 app.use("/store",store);
 app.use("/buy",buy);
@@ -42,8 +42,9 @@ app.use("/product",product);
 app.use("/",auth);
 app.use('/notification',notification);
 app.use('/seller',seller);
+app.use('/analytics',analytics);
 
-  
+
 mongoose.connect(process.env.database).then(
     ()=>{
     console.log("acces to database");

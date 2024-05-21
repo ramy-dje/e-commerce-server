@@ -6,27 +6,29 @@ const {addStore} = require('./storeController');
 // we use bcrypt to hashing password at secuer way
 const createSeller = async (req,res) =>{
     
-            try{
-                let {
-                    userId,
-                    registerCommerce
-                }= req.body;
-                let create =await new seller ({
-                    userId,
-                    registerCommerce,
-                });
-                await addStore('',userId,null)
-                await user.findOneAndUpdate({_id:userId},{ $set: 
-                    {
-                        role:"seller",
-                    }
-                })
+    try{
+        let {
+            userId,
+            registerCommerce
+        }= req.body;
+        const Store = await addStore('',userId,null)
+        const store = Store._id
+        let create =new seller ({
+            userId,
+            registerCommerce,
+            store
+        });
+        await user.findOneAndUpdate({_id:userId},{ $set: 
+            {
+                role:"seller",
+            }
+        })
 
-                await create.save();
-                res.json ({success:true,message:'seller created'});
-                }catch(err){
-                    res.json ({success:false , error : err});
-                }
+        await create.save();
+        res.json ({success:true,message:'seller created'});
+        }catch(err){
+            res.json ({success:false , error : err});
+        }
 }
     
 const acceptSeller = async (req,res) =>{

@@ -20,12 +20,14 @@ router.post("/create",storeCont.addStore);
 
 // ########## GET 
 // you have to admin id in params
-router.get("/get/all",storeCont.getAllStores);
-router.get("/get/:id" , storeCont.getOneStore);
+router.get("/all",storeCont.getAllStores);
+router.get("/:id" , storeCont.getOneStore);
+router.get("/creator/:id" , storeCont.getStoreByCreator);
 
 
 // ########## UPDATE
 router.put('/update/:id' , storeCont.updateStore);
+//visitors need to  ad the date of the visit
 router.put("/update/add/visitors/:id" , storeCont.addVisitorsIntoStore);
 router.put("/update/add/paymentWay/:id" , storeCont.setPaymentWay);
 router.put("/folow/:id" ,isAuthentificated,storeCont.addFolowsIntoStore);
@@ -37,5 +39,6 @@ router.delete("/delete/:id", storeCont.deleteStore);
 router.delete("/delete/product/:id", storeCont.deleteProductFromStore);
 
 router.get("/folowers/:id", storeCont.getFolowers);
+router.get("/products/:id", storeCont.getProducts);
 
 module.exports=router;

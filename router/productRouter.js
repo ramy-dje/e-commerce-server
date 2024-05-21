@@ -14,12 +14,15 @@ const {authorizedRoles,isAuthentificated} = require('../middlewares/auth')
  */
 
 // ########### CREATE
-router.post("/create",isAuthentificated,productCont.addProduct);
+router.post("/create",productCont.addProduct);
 
 // ########## GET 
 // you have to admin id in params
 router.get("/:id" , productCont.getOneProduct);
-router.get("/",productCont.getAllProducts);
+router.get("/get/latest" , productCont.getLatestProducts);
+router.get("/get/liked" , productCont.getProductsSortedByLikedProducts);
+router.get("/get/discount" , productCont.getProductsInDiscount);
+router.get("/get/all",productCont.getAllProducts);
 router.post("/creator" , productCont.getAllProductsByCreator);
 router.post("/category" ,productCont.getAllProductsByCategory);
 router.put('/review' ,isAuthentificated,productCont.reviewProduct);

@@ -22,7 +22,7 @@ const login = async(req,res)=>{
         }
        const tkn =await token.createToken({id:client._id,email:client.email,role:client.role});
         res.cookie("token",tkn)
-        res.json({success:true,message:"client logged in successfully",user:client});
+        res.json({success:true,message:"client logged in successfully",user:client,tkn});
     }catch(e){
         res.status(404).json({success:false,message:e});
     }
@@ -197,10 +197,7 @@ const likeProduct = async (req,res) => {
   const getLikedProduct = async (req,res) => {
     try {  
       const userId = req.user.id;
-      const user = await userSchema.findById(userId).populate({
-        path:'likedProducts',
-        select: "_id name images price"
-      });
+      const user = await userSchema.findById(userId).populate('likedProducts');
       if(!user){
         return res.json({success:false,message:'user does not existes'})
       }

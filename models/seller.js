@@ -9,6 +9,10 @@ const sellerSchema = new Schema({
         type : Boolean,
         default : false
     },
-    registerCommerce:String
+    registerCommerce:String,
+    store:{
+        type:mongoose.SchemaTypes.ObjectId,
+        ref:'store'
+    }
 });
 module.exports = mongoose.model("seller", sellerSchema);
